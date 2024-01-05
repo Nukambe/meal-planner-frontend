@@ -1,0 +1,87 @@
+<div class="container pt-4">
+  <div class="row">
+    <div id="mealTitle">
+      <h2>{{ meal?.name }}</h2>
+      <p>{{ meal?.description }}</p>
+      <div>
+        <span>Add</span>
+        <span>Favorite</span>
+      </div>
+    </div>
+    <img id="mealImage" [src]="meal?.image" [alt]="meal?.name" />
+  </div>
+  <div
+    class="d-flex mt-4 px-5 py-1 rounded-pill flex-wrap gap-2"
+    id="timeDetail"
+  >
+    <div class="col">
+      Total Time:
+      <span class="text-nowrap">
+        {{ meal?.prepTime.hours + meal?.cookTime.hours }} hrs
+      </span>
+      <span class="text-nowrap">
+        {{ meal?.prepTime.minutes + meal?.cookTime.minutes }} min
+      </span>
+    </div>
+    <div class="col">
+      Prep Time:
+      <span class="text-nowrap"> {{ meal?.prepTime.hours }} hrs </span>
+      <span class="text-nowrap"> {{ meal?.prepTime.minutes }} min </span>
+    </div>
+    <div class="col">
+      Cook Time:
+      <span class="text-nowrap"> {{ meal?.cookTime.hours }} hrs </span>
+      <span class="text-nowrap"> {{ meal?.cookTime.minutes }} min </span>
+    </div>
+    <div class="col">
+      <span class="text-nowrap">Servings: {{ meal?.servings || 1 }}</span>
+    </div>
+  </div>
+  <div
+    class="d-lg-flex flex-lg-row-reverse gap-5 mt-4 justify-content-around height-fit"
+  >
+    <div id="ingredients" class="col-lg-4 p-3 d-flex d-lg-block">
+      <div class="col">
+        <h3>Ingredients</h3>
+        <ul>
+          <li *ngFor="let ingredient of meal?.recipe.ingredients">
+            {{ ingredient.amount }} {{ ingredient.unit }} {{ ingredient.name }}
+          </li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Cookware</h3>
+        <ul>
+          <li *ngFor="let cookware of meal?.recipe.tools">
+            {{ cookware }}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-lg-7">
+      <h3 id="instructions">Instructions</h3>
+      <ol class="list-group list-group-flush">
+        <li
+          class="list-group-item border-0"
+          *ngFor="let instruction of meal?.recipe.instructions; index as index"
+        >
+          <h6 class="p-0 m-0 text-muted">Step {{ index + 1 }}</h6>
+          {{ instruction }}
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div class="mt-4">
+    <h3>Nutrition</h3>
+    <ul class="list-group">
+      <li
+        id="nutritionItem"
+        class="list-group-item d-flex justify-content-between align-items-center col-lg-8"
+        *ngFor="let nutrition of meal?.nutrition | keyvalue"
+      >
+        <span class="text-capitalize">{{ nutrition.key }}: </span
+        ><span>{{ nutrition.value }}</span>
+      </li>
+    </ul>
+  </div>
+</div>

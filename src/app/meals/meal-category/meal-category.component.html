@@ -1,0 +1,18 @@
+<div class="card">
+  <h4 class="card-title display-6 bg-secondary text-white px-4 py-1">
+    {{ category.name }}
+    <span class="card-subtitle mb-2 text-light h6">
+      {{ category.description }}
+    </span>
+  </h4>
+
+  <div>
+    <ul class="list-group list-group-horizontal" style="overflow-x: scroll">
+      @for (meal of featuredMeals; track $index) {
+      <li class="list-group-item" style="border: none">
+        <app-meal [meal]="meal"></app-meal>
+      </li>
+      }
+    </ul>
+  </div>
+</div>

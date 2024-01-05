@@ -1,0 +1,11 @@
+<div class="container">
+  <ul class="list-group-flush">
+    @for (category of (categories$ | async).categories; track category.id) {
+    <li class="list-group-item">
+      <app-meal-category [category]="category"></app-meal-category>
+    </li>
+    } @empty {
+    <li>No categories found</li>
+    }
+  </ul>
+</div>

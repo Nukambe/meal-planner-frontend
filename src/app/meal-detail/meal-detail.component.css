@@ -1,0 +1,34 @@
+#mealTitle {
+  width: 50%;
+}
+
+#mealImage {
+  width: 50%;
+}
+
+#timeDetail {
+  background-color: blanchedalmond;
+}
+
+#ingredients {
+  background-color: lightgoldenrodyellow;
+  height: fit-content;
+}
+
+#nutritionItem:hover {
+  background-color: lightgoldenrodyellow;
+}
+
+#instructions {
+  padding-left: 16px;
+}
+
+@media screen and (max-width: 768px) {
+  #mealTitle {
+    width: 100%;
+  }
+
+  #mealImage {
+    width: 100%;
+  }
+}

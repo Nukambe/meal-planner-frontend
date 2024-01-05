@@ -1,0 +1,15 @@
+<div class="card" style="width: 18rem">
+  <img
+    class="card-img-top"
+    [src]="meal.image"
+    alt="Card image cap"
+    style="max-height: 10rem; object-fit: cover"
+  />
+  <div class="card-body">
+    <h5 class="card-title">{{ meal.name }}</h5>
+    <p class="card-text">{{ meal.description }}</p>
+    <a [routerLink]="['/meals', meal.id]" class="btn btn-secondary">
+      View Meal
+    </a>
+  </div>
+</div>
