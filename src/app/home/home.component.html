@@ -1,0 +1,9 @@
+<div class="container">
+  <p>Today is {{ today }}</p>
+
+  <ol class="list-group">
+    <li class="list-group-item" *ngFor="let week of displayWeeks">
+      <app-week [weekStart]="week"></app-week>
+    </li>
+  </ol>
+</div>
