@@ -1,8 +1,19 @@
-<div class="row" [id]="'week-' + weekNumber">
+<div
+  class="row"
+  [id]="'week-' + weekNumber"
+  [ngClass]="currentWeek ? 'bg-light current-week' : ''"
+  #weekRef
+>
   <div class="row align-items-center">
     <button class="col-1">Apply Template</button>
     <h5 class="col-8 text-muted">
-      {{ weekStart.getFullYear() }} Week {{ weekNumber }}
+      <span class="d-none d-sm-inline d-lg-none">
+        {{ weekStart | date : "MMM" }}
+      </span>
+      <span class="d-none d-lg-inline">
+        {{ weekStart | date : "MMMM" }}
+      </span>
+      {{ weekStart.getFullYear() }}
     </h5>
     <button class="col-2 ms-auto">Macros</button>
   </div>
@@ -23,7 +34,6 @@
           </div>
         </div>
       </div>
-      <div class="row"></div>
     </div>
     <button class="col-1 ms-auto">Dropdown</button>
   </div>

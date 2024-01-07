@@ -1,0 +1,10 @@
+#week-list {
+  height: 160px;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+}
+
+.week-list-item {
+  scroll-snap-align: center;
+}

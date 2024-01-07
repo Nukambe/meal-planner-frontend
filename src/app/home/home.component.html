@@ -1,9 +1,23 @@
-<div class="container">
-  <p>Today is {{ today }}</p>
+<div class="container py-4">
+  <div class="row mb-4">
+    <h3 class="col-8">Today is {{ today | date : "longDate" }}</h3>
+    <button class="btn btn-info btn-sm col-2 ms-auto text-white">
+      Go To This Week
+    </button>
+  </div>
 
-  <ol class="list-group">
-    <li class="list-group-item" *ngFor="let week of displayWeeks">
-      <app-week [weekStart]="week"></app-week>
+  <ol
+    class="list-group list-group-flush border-top border-bottom"
+    id="week-list"
+  >
+    <li
+      class="list-group-item week-list-item"
+      *ngFor="let week of displayWeeks"
+    >
+      <app-week
+        [weekStart]="week.start"
+        [currentWeek]="week.current"
+      ></app-week>
     </li>
   </ol>
 </div>

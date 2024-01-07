@@ -1,4 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild,
+  AfterViewInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -8,16 +15,22 @@ import { CommonModule } from '@angular/common';
   templateUrl: './week.component.html',
   styleUrl: './week.component.css',
 })
-export class WeekComponent implements OnInit {
+export class WeekComponent implements OnInit, AfterViewInit {
   @Input() weekStart: Date = new Date();
-  weekNumber: number;
+  @Input() currentWeek: boolean = false;
+  @ViewChild('weekRef') WeekRef: ElementRef | undefined;
+  weekNumber: number = 0;
 
-  constructor() {
-    this.weekNumber = this.getWeekNumber();
-  }
+  constructor() {}
 
   ngOnInit(): void {
     this.weekNumber = this.getWeekNumber();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.currentWeek) {
+      this.WeekRef?.nativeElement.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 
   getWeekNumber(): number {
