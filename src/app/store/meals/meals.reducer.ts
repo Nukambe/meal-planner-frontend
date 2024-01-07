@@ -1,8 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
 import * as MealsActions from './meals.actions';
+import { Meal } from 'meal-planner-types';
 
 export interface MealsState {
-  meals: any;
+  meals: Meal[];
 }
 
 export const initialState: MealsState = { meals: [] };

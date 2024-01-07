@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MealComponent } from '../meal/meal.component';
+import { Meal } from 'meal-planner-types';
 
 @Component({
   selector: 'app-meal-category',
@@ -14,7 +15,7 @@ import { MealComponent } from '../meal/meal.component';
 export class MealCategoryComponent implements OnInit {
   @Input() category: any;
   meals$: Observable<any>;
-  featuredMeals: any;
+  featuredMeals: Meal[] = [];
 
   constructor(private store: Store<any>) {
     this.meals$ = this.store.select((state) => state.meals.meals);
@@ -22,9 +23,7 @@ export class MealCategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.meals$.subscribe((meals) => {
-      this.featuredMeals = meals.filter((meal: any) =>
-        this.category.meals.includes(meal.id)
-      );
+      this.featuredMeals = meals.filter((_: Meal, index: number) => index < 10);
     });
   }
 }

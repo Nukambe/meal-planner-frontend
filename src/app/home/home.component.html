@@ -1,8 +1,0 @@
-<p>home works!</p>
-<ul>
-  @for (meal of (meals$ | async); track meal.id) {
-  <li>{{ meal.name }}</li>
-  } @empty {
-  <li>no meals</li>
-  }
-</ul>

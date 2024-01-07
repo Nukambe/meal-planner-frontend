@@ -15,26 +15,16 @@
     id="timeDetail"
   >
     <div class="col">
-      Total Time:
-      <span class="text-nowrap">
-        {{ meal?.prepTime.hours + meal?.cookTime.hours }} hrs
-      </span>
-      <span class="text-nowrap">
-        {{ meal?.prepTime.minutes + meal?.cookTime.minutes }} min
-      </span>
-    </div>
-    <div class="col">
-      Prep Time:
-      <span class="text-nowrap"> {{ meal?.prepTime.hours }} hrs </span>
-      <span class="text-nowrap"> {{ meal?.prepTime.minutes }} min </span>
-    </div>
-    <div class="col">
       Cook Time:
-      <span class="text-nowrap"> {{ meal?.cookTime.hours }} hrs </span>
-      <span class="text-nowrap"> {{ meal?.cookTime.minutes }} min </span>
+      <span class="text-nowrap">
+        {{ (meal?.cookTime || 0) / 60 | number }} hrs
+      </span>
+      <span class="text-nowrap">
+        {{ (meal?.cookTime || 0) % 60 | number }} min
+      </span>
     </div>
     <div class="col">
-      <span class="text-nowrap">Servings: {{ meal?.servings || 1 }}</span>
+      <span class="text-nowrap">Servings: {{ 1 }}</span>
     </div>
   </div>
   <div
@@ -44,26 +34,26 @@
       <div class="col">
         <h3>Ingredients</h3>
         <ul>
-          <li *ngFor="let ingredient of meal?.recipe.ingredients">
+          <li *ngFor="let ingredient of meal?.recipe?.ingredients">
             {{ ingredient.amount }} {{ ingredient.unit }} {{ ingredient.name }}
           </li>
         </ul>
       </div>
-      <div class="col">
+      <!-- <div class="col">
         <h3>Cookware</h3>
         <ul>
           <li *ngFor="let cookware of meal?.recipe.tools">
             {{ cookware }}
           </li>
         </ul>
-      </div>
+      </div> -->
     </div>
     <div class="col-lg-7">
       <h3 id="instructions">Instructions</h3>
       <ol class="list-group list-group-flush">
         <li
           class="list-group-item border-0"
-          *ngFor="let instruction of meal?.recipe.instructions; index as index"
+          *ngFor="let instruction of meal?.recipe?.instructions; index as index"
         >
           <h6 class="p-0 m-0 text-muted">Step {{ index + 1 }}</h6>
           {{ instruction }}
@@ -77,10 +67,13 @@
       <li
         id="nutritionItem"
         class="list-group-item d-flex justify-content-between align-items-center col-lg-8"
-        *ngFor="let nutrition of meal?.nutrition | keyvalue"
+        *ngFor="let nutrient of nutrition?.getNutrients()"
       >
-        <span class="text-capitalize">{{ nutrition.key }}: </span
-        ><span>{{ nutrition.value }}</span>
+        <span class="text-capitalize">{{ nutrient.name }}: </span
+        ><span
+          >{{ nutrient.amount
+          }}<span class="ms-1">{{ nutrient.unit }}</span></span
+        >
       </li>
     </ul>
   </div>
