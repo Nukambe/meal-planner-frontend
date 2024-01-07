@@ -1,40 +1,35 @@
 <div
-  class="row"
+  class="row py-3"
   [id]="'week-' + weekNumber"
   [ngClass]="currentWeek ? 'bg-light current-week' : ''"
   #weekRef
 >
   <div class="row align-items-center">
-    <button class="col-1">Apply Template</button>
-    <h5 class="col-8 text-muted">
+    <h5 class="col-8 mb-3">
       <span class="d-none d-sm-inline d-lg-none">
         {{ weekStart | date : "MMM" }}
       </span>
       <span class="d-none d-lg-inline">
         {{ weekStart | date : "MMMM" }}
       </span>
-      {{ weekStart.getFullYear() }}
     </h5>
-    <button class="col-2 ms-auto">Macros</button>
+    <button class="col-3 ms-auto">Apply Template</button>
   </div>
   <div class="row">
-    <div class="col-10">
-      <div class="row">
-        <div class="row">
-          <div
-            class="col-1 col-md text-center text-muted"
-            *ngFor="let day of ['S', 'M', 'T', 'W', 'T', 'F', 'S']"
-          >
-            {{ day }}
-          </div>
-        </div>
-        <div class="row text-center">
-          <div class="col-1 col-md fw-bold" *ngFor="let date of getWeekDates()">
-            {{ date }}
-          </div>
+    <div class="row">
+      <div
+        class="col text-center text-muted"
+        *ngFor="let day of ['S', 'M', 'T', 'W', 'T', 'F', 'S']"
+      >
+        {{ day }}
+      </div>
+    </div>
+    <div class="row text-center">
+      <div class="col fw-bold" *ngFor="let date of getWeekDates()">
+        <div class="border col-3 m-auto">
+          {{ date }}
         </div>
       </div>
     </div>
-    <button class="col-1 ms-auto">Dropdown</button>
   </div>
 </div>

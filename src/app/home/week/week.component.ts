@@ -29,7 +29,12 @@ export class WeekComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     if (this.currentWeek) {
-      this.WeekRef?.nativeElement.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(
+        () =>
+          this.WeekRef?.nativeElement.scrollIntoView({ behavior: 'smooth' }),
+        0
+      );
+      // this.WeekRef?.nativeElement.scrollIntoView({ behavior: 'smooth' });
     }
   }
 
