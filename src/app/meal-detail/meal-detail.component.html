@@ -1,14 +1,18 @@
 <div class="container pt-4">
   <div class="row">
     <div id="mealTitle">
-      <h2>{{ meal?.name }}</h2>
-      <p>{{ meal?.description }}</p>
+      <h2>{{ (meal$ | async)?.name }}</h2>
+      <p>{{ (meal$ | async)?.description }}</p>
       <div>
         <span>Add</span>
         <span>Favorite</span>
       </div>
     </div>
-    <img id="mealImage" [src]="meal?.image" [alt]="meal?.name" />
+    <img
+      id="mealImage"
+      [src]="(meal$ | async)?.image"
+      [alt]="(meal$ | async)?.name"
+    />
   </div>
   <div
     class="d-flex mt-4 px-5 py-1 rounded-pill flex-wrap gap-2"
@@ -17,10 +21,10 @@
     <div class="col">
       Cook Time:
       <span class="text-nowrap">
-        {{ (meal?.cookTime || 0) / 60 | number }} hrs
+        {{ ((meal$ | async)?.cookTime || 0) / 60 | number }} hrs
       </span>
       <span class="text-nowrap">
-        {{ (meal?.cookTime || 0) % 60 | number }} min
+        {{ ((meal$ | async)?.cookTime || 0) % 60 | number }} min
       </span>
     </div>
     <div class="col">
@@ -34,7 +38,7 @@
       <div class="col">
         <h3>Ingredients</h3>
         <ul>
-          <li *ngFor="let ingredient of meal?.recipe?.ingredients">
+          <li *ngFor="let ingredient of (meal$ | async)?.recipe?.ingredients">
             {{ ingredient.amount }} {{ ingredient.unit }} {{ ingredient.name }}
           </li>
         </ul>
@@ -53,7 +57,10 @@
       <ol class="list-group list-group-flush">
         <li
           class="list-group-item border-0"
-          *ngFor="let instruction of meal?.recipe?.instructions; index as index"
+          *ngFor="
+            let instruction of (meal$ | async)?.recipe?.instructions;
+            index as index
+          "
         >
           <h6 class="p-0 m-0 text-muted">Step {{ index + 1 }}</h6>
           {{ instruction }}
@@ -67,7 +74,7 @@
       <li
         id="nutritionItem"
         class="list-group-item d-flex justify-content-between align-items-center col-lg-8"
-        *ngFor="let nutrient of nutrition?.getNutrients()"
+        *ngFor="let nutrient of (meal$ | async)?.nutrition?.nutrients"
       >
         <span class="text-capitalize">{{ nutrient.name }}: </span
         ><span

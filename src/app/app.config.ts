@@ -12,11 +12,18 @@ import { MealsEffects } from './store/meals/meals.effects';
 import { categoriesReducer } from './store/categories/categories.reducer';
 import { CategoriesEffects } from './store/categories/categories.effects';
 
+import { plansReducer } from './store/plans/plans.reducer';
+import { PlansEffects } from './store/plans/plans.effects';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(),
-    provideStore({ meals: mealsReducer, categories: categoriesReducer }),
-    provideEffects([MealsEffects, CategoriesEffects]),
+    provideStore({
+      meals: mealsReducer,
+      categories: categoriesReducer,
+      plan: plansReducer,
+    }),
+    provideEffects([MealsEffects, CategoriesEffects, PlansEffects]),
   ],
 };

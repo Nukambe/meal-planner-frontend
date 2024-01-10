@@ -1,1 +1,19 @@
-<p>weekly-macros works!</p>
+<div class="mb-5">
+  <h4>Weekly Macros</h4>
+  <ul class="list-group list-group-horizontal flex-wrap">
+    <li
+      *ngFor="
+        let macro of getWeeklyMacros(
+          (getMeals((getWeeklyMealIds() | async) || []) | async) || []
+        )
+      "
+      class="list-group-item row justify-content-between align-items-center border-0"
+    >
+      <span class="fw-semibold fs-5">{{ macro.name }}:</span>
+      <span>
+        <span class="fs-3">{{ macro.amount }}</span>
+        <span class="">{{ macro.unit }}</span>
+      </span>
+    </li>
+  </ul>
+</div>

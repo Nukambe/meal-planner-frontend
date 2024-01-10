@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="row align-items-center">
+    <button class="col-1">Apply Template</button>
+    <div class="row col-10" (click)="showMeals = !showMeals">
+      <h4 class="col-4">
+        {{ day | dayOfWeek }}
+      </h4>
+    </div>
+  </div>
+  <ol
+    class="list-group list-group-flush"
+    [ngStyle]="{
+      height: getListHeight((getListOfMeals() | async) || []),
+    }"
+  >
+    <li *ngFor="let mealId of getListOfMeals() | async" class="list-group-item">
+      <app-planned-meal [mealId]="mealId"></app-planned-meal>
+    </li>
+    <li class="list-group-item border-0 mt-auto">
+      <button>Add Meal</button>
+    </li>
+  </ol>
+</div>

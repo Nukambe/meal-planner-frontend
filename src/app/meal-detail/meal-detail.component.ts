@@ -1,9 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { Meal, Nutrient, Nutrition } from 'meal-planner-types';
+import { MealPlanService } from '../meal-plan.service';
 
 @Component({
   selector: 'app-meal-detail',
@@ -14,15 +13,12 @@ import { Meal, Nutrient, Nutrition } from 'meal-planner-types';
 })
 export class MealDetailComponent implements OnInit {
   id: number;
-  meals$: Observable<any>;
-  meal: Meal | undefined;
-  nutrition: Nutrition | undefined;
+  meal$: Observable<any> | undefined;
 
   constructor(
-    private readonly store: Store<{ meals: { meals: Meal[] } }>,
+    private mealPlanService: MealPlanService,
     private route: ActivatedRoute
   ) {
-    this.meals$ = this.store.select((state) => state.meals.meals);
     this.id = +route.snapshot.params['mealId'];
   }
 
@@ -31,10 +27,6 @@ export class MealDetailComponent implements OnInit {
       this.id = +params.get('mealId')!;
     });
 
-    this.meals$.subscribe((meals) => {
-      this.meal = meals.find((meal: Meal) => this.id === meal.id);
-      this.nutrition = this.meal?.nutrition;
-      console.log(this.meal?.nutrition);
-    });
+    this.meal$ = this.mealPlanService.getMealById(this.id);
   }
 }

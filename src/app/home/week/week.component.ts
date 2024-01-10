@@ -34,7 +34,6 @@ export class WeekComponent implements OnInit, AfterViewInit {
           this.WeekRef?.nativeElement.scrollIntoView({ behavior: 'smooth' }),
         0
       );
-      // this.WeekRef?.nativeElement.scrollIntoView({ behavior: 'smooth' });
     }
   }
 

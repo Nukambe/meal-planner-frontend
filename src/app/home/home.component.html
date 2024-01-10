@@ -30,5 +30,11 @@
     </li>
   </ol>
 
-  <app-weekly-macros></app-weekly-macros>
+  <app-weekly-macros [week]="viewingWeek"></app-weekly-macros>
+
+  <ol class="list-group">
+    <li *ngFor="let day of [0, 1, 2, 3, 4, 5, 6]" class="list-group-item">
+      <app-week-day [day]="day" [week]="viewingWeek"></app-week-day>
+    </li>
+  </ol>
 </div>
