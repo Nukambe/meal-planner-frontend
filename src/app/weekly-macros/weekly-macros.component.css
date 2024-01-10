@@ -1,0 +1,8 @@
+ul {
+  min-height: 140px;
+}
+
+#no-meals:not(:first-child) {
+  display: none;
+  box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
+}
