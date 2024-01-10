@@ -1,10 +1,31 @@
 <div class="row">
   <div class="row align-items-center">
-    <button class="col-1">Apply Template</button>
-    <div class="row col-10" (click)="showMeals = !showMeals">
-      <h4 class="col-4">
+    <button class="col-2 col-lg-1">Apply Template</button>
+    <div class="row col" (click)="showMeals = !showMeals">
+      <h4 class="col col-lg-2">
         {{ day | dayOfWeek }}
       </h4>
+      <ul
+        class="list-group list-group-flush list-group-horizontal col col-lg-9 ms-auto"
+        [ngClass]="{ 'border-bottom': showMeals }"
+      >
+        <li
+          *ngFor="
+            let macro of getDailyMacros(
+              (getMeals((getDailyMealIds() | async) || []) | async) || []
+            );
+            let i = index
+          "
+          class="list-group-item col text-nowrap text-start flex-fill border-0"
+          [ngClass]="{
+            'd-none d-lg-block': i > 0
+          }"
+        >
+          <span class="fw-semibold">{{ macro.name | nutrient }}</span>
+          : <span class="fs-4 fw-normal">{{ macro.amount }}</span>
+          {{ macro.unit }}
+        </li>
+      </ul>
     </div>
   </div>
   <ol

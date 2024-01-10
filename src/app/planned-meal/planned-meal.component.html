@@ -12,7 +12,7 @@
               (getMealById() | async)?.nutrients || []
             )
           "
-          class="col text-nowrap fw-bold text-start"
+          class="col text-nowrap text-start text-muted"
         >
           <span class="fw-semibold">{{ nutrient.name | nutrient }}</span>
           : <span class="fs-4 fw-normal">{{ nutrient.amount }}</span>
