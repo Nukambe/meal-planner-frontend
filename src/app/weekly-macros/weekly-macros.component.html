@@ -2,11 +2,7 @@
   <h4>Weekly Macros</h4>
   <ul class="list-group list-group-horizontal flex-wrap">
     <li
-      *ngFor="
-        let macro of getWeeklyMacros(
-          (getMeals((getWeeklyMealIds() | async) || []) | async) || []
-        )
-      "
+      *ngFor="let macro of getWeeklyMacros((getMeals() | async) || [])"
       class="list-group-item row justify-content-between align-items-center border-0"
     >
       <span class="fw-semibold fs-5">{{ macro.name }}:</span>

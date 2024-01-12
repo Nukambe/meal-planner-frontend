@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MealPlanService } from '../meal-plan.service';
 import { Meal } from 'meal-planner-types';
@@ -13,20 +13,24 @@ import { Meal } from 'meal-planner-types';
 export class WeeklyMacrosComponent {
   constructor(private readonly mealPlanService: MealPlanService) {}
 
+  getWeek() {
+    return this.mealPlanService.getActiveWeek();
+  }
+
   getWeeklyMealIds() {
     return this.mealPlanService.getMealIdsByWeek(
       this.mealPlanService.getActiveWeek()
     );
   }
 
-  getMeals(ids: number[]) {
-    return this.mealPlanService.getMealsByIds(ids);
+  getMeals() {
+    return this.mealPlanService.getMealsByWeek(this.getWeek());
   }
 
-  getWeeklyMacros(meals: Meal[]) {
+  getWeeklyMacros(meals: (Meal | undefined)[]) {
     return meals.reduce(
       (acc, meal) => {
-        meal.nutrients.forEach((nutrient) => {
+        meal?.nutrients.forEach((nutrient) => {
           const index = acc.findIndex((item) => item.name === nutrient.name);
           if (index === -1) {
             acc.push({

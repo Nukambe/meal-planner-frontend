@@ -27,10 +27,13 @@ export class MealPlanService {
     );
   }
 
-  getMealsByIds(mealIds: number[]): Observable<Meal[]> {
-    return this.store.select((state: { meals: { meals: Meal[] } }) =>
-      state.meals.meals.filter((meal: Meal) => mealIds.includes(meal.id))
-    );
+  getMealsByIds(mealIds: number[]): Observable<(Meal | undefined)[]> {
+    return this.store.select((state: { meals: { meals: Meal[] } }) => {
+      const meals = mealIds.map((id) =>
+        state.meals.meals.find((m) => m.id === id)
+      );
+      return meals;
+    });
   }
   // Meal Plan ---------------------------------------------------------------
   getMealPlan(): Observable<MealPlan> {
@@ -50,15 +53,35 @@ export class MealPlanService {
   }
 
   getMealIdsByDay(week: string, day: dayOfWeek): Observable<number[]> {
-    return this.store.select((state: { plan: { plan: MealPlan } }) =>
-      state.plan.plan.getPlannedMealsByDay(week, day)
+    return this.store.select((state: { plan: { plan: MealPlan } }) => {
+      const ids = state.plan.plan.getPlannedMealsByDay(week, day);
+      // console.log('meal ids by day: ', ids);
+      return ids;
+    });
+  }
+
+  getMealsByWeek(week: string): Observable<(Meal | undefined)[]> {
+    return this.getMealIdsByWeek(week).pipe(
+      take(1),
+      switchMap((ids) => {
+        // console.log('get meals by week (ids): ', ids);
+        const mealIds = this.getMealsByIds(ids);
+        return mealIds;
+      })
     );
   }
 
-  getMealsByDay(week: string, day: dayOfWeek): Observable<Meal[]> {
+  getMealsByDay(
+    week: string,
+    day: dayOfWeek
+  ): Observable<(Meal | undefined)[]> {
     return this.getMealIdsByDay(week, day).pipe(
       take(1),
-      switchMap((ids) => this.getMealsByIds(ids))
+      switchMap((ids) => {
+        // console.log('get meals by day (ids): ', ids);
+        const mealIds = this.getMealsByIds(ids);
+        return mealIds;
+      })
     );
   }
 

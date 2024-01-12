@@ -45,7 +45,7 @@ export class WeekDayComponent {
     return this.mealPlanService.getMealsByDay(this.getWeek(), this.day);
   }
 
-  getDailyMacros(meals: Meal[]) {
+  getDailyMacros(meals: (Meal | undefined)[]) {
     const macros = [
       { name: 'Calories', amount: 0, unit: '' },
       { name: 'Carbs', amount: 0, unit: 'g' },
@@ -57,15 +57,16 @@ export class WeekDayComponent {
 
     return meals.reduce((acc, meal) => {
       acc[0].amount +=
-        meal.nutrients.find((nutrient) => nutrient.name === 'Calories')
+        meal?.nutrients.find((nutrient) => nutrient.name === 'Calories')
           ?.amount || 0;
       acc[1].amount +=
-        meal.nutrients.find((nutrient) => nutrient.name === 'Carbohydrates')
+        meal?.nutrients.find((nutrient) => nutrient.name === 'Carbohydrates')
           ?.amount || 0;
       acc[2].amount +=
-        meal.nutrients.find((nutrient) => nutrient.name === 'Fat')?.amount || 0;
+        meal?.nutrients.find((nutrient) => nutrient.name === 'Fat')?.amount ||
+        0;
       acc[3].amount +=
-        meal.nutrients.find((nutrient) => nutrient.name === 'Protein')
+        meal?.nutrients.find((nutrient) => nutrient.name === 'Protein')
           ?.amount || 0;
       return acc;
     }, macros);
