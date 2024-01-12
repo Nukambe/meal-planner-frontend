@@ -2,7 +2,6 @@ import {
   Component,
   ElementRef,
   Input,
-  OnInit,
   ViewChild,
   AfterViewInit,
 } from '@angular/core';
@@ -15,17 +14,12 @@ import { CommonModule } from '@angular/common';
   templateUrl: './week.component.html',
   styleUrl: './week.component.css',
 })
-export class WeekComponent implements OnInit, AfterViewInit {
+export class WeekComponent implements AfterViewInit {
   @Input() weekStart: Date = new Date();
   @Input() currentWeek: boolean = false;
   @ViewChild('weekRef') WeekRef: ElementRef | undefined;
-  weekNumber: number = 0;
 
   constructor() {}
-
-  ngOnInit(): void {
-    this.weekNumber = this.getWeekNumber();
-  }
 
   ngAfterViewInit(): void {
     if (this.currentWeek) {
@@ -35,16 +29,6 @@ export class WeekComponent implements OnInit, AfterViewInit {
         0
       );
     }
-  }
-
-  getWeekNumber(): number {
-    const yearStart = new Date(this.weekStart.getFullYear(), 0, 1);
-    const yearStartDayOfWeek = yearStart.getDay();
-    const days = Math.floor(
-      (this.weekStart.getTime() - yearStart.getTime()) / 86400000
-    );
-
-    return Math.ceil((days + yearStart.getDay() + yearStartDayOfWeek) / 7);
   }
 
   getWeekDates(): number[] {
@@ -61,5 +45,17 @@ export class WeekComponent implements OnInit, AfterViewInit {
     }
 
     return weekDates;
+  }
+
+  getDayOfWeek(index: number): string {
+    const daysOfWeek = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+
+    return daysOfWeek[index];
+  }
+
+  isToday(date: number): boolean {
+    if (!this.currentWeek) return false;
+    const today = new Date();
+    return today.getDate() === date;
   }
 }

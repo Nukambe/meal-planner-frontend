@@ -1,0 +1,37 @@
+<form class="my-4">
+  <div class="form-group">
+    <label for="mealName" class="visually-hidden">Meal Name</label>
+    <div class="d-flex border rounded-pill">
+      <button
+        type="button"
+        class="col-2 col-lg-1 rounded-start-pill border-0 text-muted btn-info d-flex align-items-center justify-content-center gap-2"
+        data-bs-toggle="modal"
+        data-bs-target="#staticBackdrop"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-funnel-fill"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"
+          />
+        </svg>
+        <div class="d-none d-md-inline">Filter</div>
+      </button>
+      <input
+        type="search"
+        class="form-control col rounded-0 border-0"
+        id="mealName"
+        aria-describedby="mealNameHelp"
+        placeholder="Enter meal name"
+      />
+      <button class="col-1 rounded-end-pill border-0 text-muted">Search</button>
+    </div>
+  </div>
+</form>
+
+<app-filter-modal></app-filter-modal>

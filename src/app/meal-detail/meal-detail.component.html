@@ -1,17 +1,53 @@
 <div class="container pt-4">
-  <div class="row">
+  <div class="row d-flex justify-content-between">
     <div id="mealTitle">
-      <h2>{{ (meal$ | async)?.name }}</h2>
-      <p>{{ (meal$ | async)?.description }}</p>
-      <div>
-        <span>Add</span>
-        <span>Favorite</span>
+      <h2>{{ (meal$ | async)?.title }}</h2>
+      <p>{{ (meal$ | async)?.summary }}</p>
+      <div class="">
+        <button
+          type="button"
+          class="btn btn-success rounded-circle p-0"
+          data-bs-toggle="modal"
+          data-bs-target="#addMealBackdrop"
+          (click)="showAddMealModal()"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="48"
+            height="48"
+            fill="currentColor"
+            class="bi bi-plus-circle"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"
+            />
+            <path
+              d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"
+            />
+          </svg>
+        </button>
+        <button class="btn border-0">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="48"
+            height="48"
+            fill="currentColor"
+            class="bi bi-heart"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"
+            />
+          </svg>
+        </button>
       </div>
     </div>
     <img
       id="mealImage"
       [src]="(meal$ | async)?.image"
-      [alt]="(meal$ | async)?.name"
+      [alt]="(meal$ | async)?.title"
+      style="border-radius: 8%"
     />
   </div>
   <div
@@ -21,24 +57,21 @@
     <div class="col">
       Cook Time:
       <span class="text-nowrap">
-        {{ ((meal$ | async)?.cookTime || 0) / 60 | number }} hrs
-      </span>
-      <span class="text-nowrap">
-        {{ ((meal$ | async)?.cookTime || 0) % 60 | number }} min
+        {{ (meal$ | async)?.readyInMinutes }} Minutes
       </span>
     </div>
     <div class="col">
-      <span class="text-nowrap">Servings: {{ 1 }}</span>
+      <span class="text-nowrap">Servings: {{ (meal$ | async)?.servings }}</span>
     </div>
   </div>
   <div
     class="d-lg-flex flex-lg-row-reverse gap-5 mt-4 justify-content-around height-fit"
   >
-    <div id="ingredients" class="col-lg-4 p-3 d-flex d-lg-block">
+    <div id="ingredients" class="col-lg-4 p-3 d-flex d-lg-block mb-4">
       <div class="col">
         <h3>Ingredients</h3>
         <ul>
-          <li *ngFor="let ingredient of (meal$ | async)?.recipe?.ingredients">
+          <li *ngFor="let ingredient of (meal$ | async)?.ingredients">
             {{ ingredient.amount }} {{ ingredient.unit }} {{ ingredient.name }}
           </li>
         </ul>
@@ -53,35 +86,30 @@
       </div> -->
     </div>
     <div class="col-lg-7">
-      <h3 id="instructions">Instructions</h3>
-      <ol class="list-group list-group-flush">
+      <h3 class="ps-3">Instructions</h3>
+      <ol class="list-group list-group-flush mb-4">
         <li
           class="list-group-item border-0"
-          *ngFor="
-            let instruction of (meal$ | async)?.recipe?.instructions;
-            index as index
-          "
+          *ngFor="let instruction of (meal$ | async)?.instructions"
         >
-          <h6 class="p-0 m-0 text-muted">Step {{ index + 1 }}</h6>
-          {{ instruction }}
+          <h6 class="p-0 m-0 text-muted">Step {{ instruction.number }}</h6>
+          {{ instruction.step }}
         </li>
       </ol>
-    </div>
-  </div>
-  <div class="mt-4">
-    <h3>Nutrition</h3>
-    <ul class="list-group">
-      <li
-        id="nutritionItem"
-        class="list-group-item d-flex justify-content-between align-items-center col-lg-8"
-        *ngFor="let nutrient of (meal$ | async)?.nutrition?.nutrients"
-      >
-        <span class="text-capitalize">{{ nutrient.name }}: </span
-        ><span
-          >{{ nutrient.amount
-          }}<span class="ms-1">{{ nutrient.unit }}</span></span
+      <h3 class="ps-3">Nutrition</h3>
+      <ul class="list-group ps-3 mb-4">
+        <li
+          id="nutritionItem"
+          class="list-group-item d-flex justify-content-between align-items-center col-lg-8"
+          *ngFor="let nutrient of (meal$ | async)?.nutrients"
         >
-      </li>
-    </ul>
+          <span class="text-capitalize">{{ nutrient.name }}: </span
+          ><span
+            >{{ nutrient.amount
+            }}<span class="ms-1">{{ nutrient.unit }}</span></span
+          >
+        </li>
+      </ul>
+    </div>
   </div>
 </div>

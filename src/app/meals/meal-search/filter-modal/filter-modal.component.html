@@ -1,0 +1,67 @@
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Filters</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="filterGroup">
+          <ul class="list-group-flush">
+            <li
+              *ngFor="let filter of filters | keyvalue"
+              class="list-group-item d-flex align-items-center fs-5"
+            >
+              <div class="me-auto w-25">
+                {{ filter.key }}
+              </div>
+              <input
+                type="number"
+                [formControlName]="filter.key"
+                min="0"
+                class="col form-control"
+              />
+              <button
+                (click)="changeOrder(filter.value)"
+                class="btn fs-4 py-0"
+                [innerHTML]="filterGroup.get(filter.value)?.value ? '▲' : '▼'"
+                [ngStyle]="{
+                  color: filterGroup.get(filter.value)?.value ? 'green' : 'red'
+                }"
+              ></button>
+            </li>
+          </ul>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="clearFilters()">
+          Clear
+        </button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-success"
+          data-bs-dismiss="modal"
+          (click)="applyFilters()"
+        >
+          Apply
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -11,12 +11,12 @@ import { Meal } from 'meal-planner-types';
   styleUrl: './weekly-macros.component.css',
 })
 export class WeeklyMacrosComponent {
-  @Input() week: string = '1/7/24';
-
   constructor(private readonly mealPlanService: MealPlanService) {}
 
   getWeeklyMealIds() {
-    return this.mealPlanService.getMealIdsByWeek(this.week);
+    return this.mealPlanService.getMealIdsByWeek(
+      this.mealPlanService.getActiveWeek()
+    );
   }
 
   getMeals(ids: number[]) {

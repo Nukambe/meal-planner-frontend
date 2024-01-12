@@ -1,0 +1,62 @@
+<div
+  class="modal fade"
+  id="addMealBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="addMealBackdropLabel"
+  aria-hidden="true"
+  #addMealModal
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="addMealBackdropLabel">
+          Add Meal: {{ (getMeal() | async)?.title }}
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="closeModal()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <app-week-selection></app-week-selection>
+        <ul class="list-group list-group-horizontal">
+          <li
+            *ngFor="let day of daysOfWeek; let i = index"
+            class="list-group-item flex-fill text-center col"
+            style="width: 14%"
+          >
+            <div class="fs-5 fw-bold">
+              {{ day }}
+            </div>
+            <div>
+              <button class="btn p-0" (click)="adjustMealCount(i, true)">
+                ▲
+              </button>
+              <div>
+                {{ getNumberOfMeal((getMeals(i) | async) || []) }}
+              </div>
+              <button class="btn p-0" (click)="adjustMealCount(i, false)">
+                ▼
+              </button>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-dismiss="modal"
+          (click)="closeModal()"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

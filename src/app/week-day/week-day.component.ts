@@ -2,28 +2,34 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MealPlanService } from '../meal-plan.service';
 import { dayOfWeek } from 'meal-planner-types';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { DayOfWeekPipe } from '../pipes/day-of-week.pipe';
 import { PlannedMealComponent } from '../planned-meal/planned-meal.component';
 import { Meal } from 'meal-planner-types';
 import { NutrientPipe } from '../pipes/nutrient.pipe';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-week-day',
   standalone: true,
-  imports: [CommonModule, DayOfWeekPipe, PlannedMealComponent, NutrientPipe],
+  imports: [
+    CommonModule,
+    DayOfWeekPipe,
+    PlannedMealComponent,
+    NutrientPipe,
+    RouterLink,
+  ],
   templateUrl: './week-day.component.html',
   styleUrl: './week-day.component.css',
 })
 export class WeekDayComponent {
   @Input() day: dayOfWeek = dayOfWeek.Sunday;
-  @Input() week: string = '1/7/24';
   showMeals: boolean = false;
 
   constructor(private mealPlanService: MealPlanService) {}
 
-  getListOfMeals(): Observable<number[]> {
-    return this.mealPlanService.getMealIdsByDay(this.week, this.day);
+  getWeek() {
+    return this.mealPlanService.getActiveWeek();
   }
 
   getListHeight(items: number[]): string {
@@ -32,11 +38,11 @@ export class WeekDayComponent {
   }
 
   getDailyMealIds() {
-    return this.mealPlanService.getMealIdsByDay(this.week, this.day);
+    return this.mealPlanService.getMealIdsByDay(this.getWeek(), this.day);
   }
 
-  getMeals(ids: number[]) {
-    return this.mealPlanService.getMealsByIds(ids);
+  getMeals() {
+    return this.mealPlanService.getMealsByDay(this.getWeek(), this.day);
   }
 
   getDailyMacros(meals: Meal[]) {
@@ -46,6 +52,8 @@ export class WeekDayComponent {
       { name: 'Fat', amount: 0, unit: 'g' },
       { name: 'Protein', amount: 0, unit: 'g' },
     ];
+
+    console.log(meals);
 
     return meals.reduce((acc, meal) => {
       acc[0].amount +=

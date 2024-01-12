@@ -1,11 +1,41 @@
 <div class="container">
-  <ul class="list-group-flush">
-    @for (category of (categories$ | async).categories; track category.id) {
-    <li class="list-group-item">
-      <app-meal-category [category]="category"></app-meal-category>
+  <app-meal-search></app-meal-search>
+  <ul class="list-group list-group-flush list-group-horizontal flex-wrap">
+    <li
+      *ngFor="let meal of getMeals() | async"
+      class="list-group-item border-0"
+    >
+      <app-meal [meal]="meal"></app-meal>
     </li>
-    } @empty {
-    <li>No categories found</li>
-    }
+    <li
+      *ngFor="let meal of getMeals() | async"
+      class="list-group-item border-0"
+    >
+      <app-meal [meal]="meal"></app-meal>
+    </li>
+    <li
+      *ngFor="let meal of getMeals() | async"
+      class="list-group-item border-0"
+    >
+      <app-meal [meal]="meal"></app-meal>
+    </li>
+    <li
+      *ngFor="let meal of getMeals() | async"
+      class="list-group-item border-0"
+    >
+      <app-meal [meal]="meal"></app-meal>
+    </li>
+    <li
+      *ngFor="let meal of getMeals() | async"
+      class="list-group-item border-0"
+    >
+      <app-meal [meal]="meal"></app-meal>
+    </li>
+    <li
+      *ngFor="let meal of getMeals() | async"
+      class="list-group-item border-0"
+    >
+      <app-meal [meal]="meal"></app-meal>
+    </li>
   </ul>
 </div>

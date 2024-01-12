@@ -3,6 +3,7 @@ import { MealPlanService } from '../meal-plan.service';
 import { CommonModule } from '@angular/common';
 import { NutrientPipe } from '../pipes/nutrient.pipe';
 import { Router, RouterLink } from '@angular/router';
+import { dayOfWeek } from 'meal-planner-types';
 
 @Component({
   selector: 'app-planned-meal',
@@ -13,11 +14,11 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class PlannedMealComponent {
   @Input() mealId: number = 0;
+  @Input() position: number = 0;
+  @Input() week: string = '1/7/21';
+  @Input() day: dayOfWeek = dayOfWeek.Sunday;
 
-  constructor(
-    private readonly mealPlanService: MealPlanService,
-    private readonly router: Router
-  ) {}
+  constructor(private readonly mealPlanService: MealPlanService) {}
 
   getMealById() {
     return this.mealPlanService.getMealById(this.mealId);
@@ -31,9 +32,11 @@ export class PlannedMealComponent {
       percentOfDailyNeeds: number;
     }[]
   ) {
-    const display = ['calories', 'carbohydrates', 'fat', 'protein'];
-    return nutrients.filter((nutrient) =>
-      display.includes(nutrient.name.toLowerCase())
-    );
+    const display = ['Calories', 'Carbohydrates', 'Fat', 'Protein'];
+    return nutrients.filter((nutrient) => display.includes(nutrient.name));
+  }
+
+  removePlannedMeal() {
+    this.mealPlanService.removePlannedMeal(this.week, this.day, this.position);
   }
 }

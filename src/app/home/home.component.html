@@ -1,40 +1,12 @@
 <div class="container py-4">
   <div class="row mb-4">
     <h3 class="col-8">Today is {{ today | date : "longDate" }}</h3>
-    <div class="row column-gap-3">
-      <button
-        class="btn btn-success btn-sm col-2 text-white fw-semibold ms-3"
-        (click)="scrollToCurrentWeek()"
-      >
-        Go To This Week
-      </button>
-      <!-- <button class="btn btn-info btn-sm text-white fw-semibold col-2">
-        Shopping List
-      </button> -->
-    </div>
+    <app-week-selection></app-week-selection>
   </div>
-
-  <ol
-    class="list-group list-group-flush border-top border-bottom mb-5"
-    id="week-list"
-  >
-    <li
-      *ngFor="let week of displayWeeks"
-      class="list-group-item week-list-item"
-      [id]="week.start | date : 'shortDate'"
-    >
-      <app-week
-        [weekStart]="week.start"
-        [currentWeek]="week.current"
-      ></app-week>
-    </li>
-  </ol>
-
-  <app-weekly-macros [week]="viewingWeek"></app-weekly-macros>
-
+  <!-- <app-weekly-macros></app-weekly-macros> -->
   <ol class="list-group">
     <li *ngFor="let day of [0, 1, 2, 3, 4, 5, 6]" class="list-group-item">
-      <app-week-day [day]="day" [week]="viewingWeek"></app-week-day>
+      <app-week-day [day]="day"></app-week-day>
     </li>
   </ol>
 </div>

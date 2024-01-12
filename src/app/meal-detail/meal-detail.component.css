@@ -3,7 +3,7 @@
 }
 
 #mealImage {
-  width: 50%;
+  width: 24rem;
 }
 
 #timeDetail {
@@ -13,14 +13,6 @@
 #ingredients {
   background-color: lightgoldenrodyellow;
   height: fit-content;
-}
-
-#nutritionItem:hover {
-  background-color: lightgoldenrodyellow;
-}
-
-#instructions {
-  padding-left: 16px;
 }
 
 @media screen and (max-width: 768px) {

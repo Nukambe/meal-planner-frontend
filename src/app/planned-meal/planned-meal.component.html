@@ -12,14 +12,32 @@
               (getMealById() | async)?.nutrients || []
             )
           "
-          class="col text-nowrap text-start text-muted"
+          class="col text-nowrap text-start text-muted fw-light"
         >
-          <span class="fw-semibold">{{ nutrient.name | nutrient }}</span>
-          : <span class="fs-4 fw-normal">{{ nutrient.amount }}</span>
+          <span class="fw-normal">{{ nutrient.name | nutrient }}</span>
+          : <span class="fs-4">{{ nutrient.amount }}</span>
           {{ nutrient.unit }}
         </span>
       </div>
     </div>
   </a>
-  <button class="col-1 ms-auto">Remove Meal</button>
+  <button
+    (click)="removePlannedMeal()"
+    class="ms-auto btn btn-outline-danger col-3 col-lg-2"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      fill="currentColor"
+      class="bi bi-calendar-minus"
+      viewBox="0 0 16 16"
+    >
+      <path d="M5.5 9.5A.5.5 0 0 1 6 9h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5" />
+      <path
+        d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"
+      />
+    </svg>
+    Remove
+  </button>
 </div>
