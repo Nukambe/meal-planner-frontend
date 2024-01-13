@@ -21,6 +21,11 @@
           </span>
         </li>
       </ul>
+      <app-macro-comparison
+        *ngIf="showMeals"
+        [day]="day"
+        [onlyCompare]="true"
+      ></app-macro-comparison>
     </button>
     <button
       type="button"

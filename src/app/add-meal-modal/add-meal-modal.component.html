@@ -6,7 +6,6 @@
   tabindex="-1"
   aria-labelledby="addMealBackdropLabel"
   aria-hidden="true"
-  #addMealModal
 >
   <div class="modal-dialog">
     <div class="modal-content">
@@ -54,53 +53,7 @@
               <h6 class="fs-5">
                 {{ i | dayOfWeek }}
               </h6>
-              <ul class="list-group list-group-flush list-group-horizontal-sm">
-                <li
-                  *ngFor="
-                    let macro of getDailyMacros((getMeals(i) | async) || []);
-                    let i = index
-                  "
-                  class="list-group-item text-nowrap text-start flex-fill border-0 w-25 px-1"
-                >
-                  <div>
-                    <span class="fw-semibold me-1">
-                      {{ macro.name | nutrient }}
-                    </span>
-                    <span class="fw-normal">
-                      {{ macro.amount }}
-                    </span>
-                    {{ macro.unit }}
-                  </div>
-                  <div
-                    [ngStyle]="{
-                      color: getMacroComparison(
-                        macro.name,
-                        macro.amount,
-                        getMacroGoals() | async
-                      ).type
-                        ? 'green'
-                        : 'red'
-                    }"
-                  >
-                    {{
-                      getMacroComparison(
-                        macro.name,
-                        macro.amount,
-                        getMacroGoals() | async
-                      ).remainder
-                    }}
-                    <span>
-                      {{
-                        getMacroComparison(
-                          macro.name,
-                          macro.amount,
-                          getMacroGoals() | async
-                        ).symbol
-                      }}
-                    </span>
-                  </div>
-                </li>
-              </ul>
+              <app-macro-comparison [day]="i"></app-macro-comparison>
             </div>
           </div>
         </div>

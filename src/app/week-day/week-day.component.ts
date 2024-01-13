@@ -7,6 +7,7 @@ import { PlannedMealComponent } from '../planned-meal/planned-meal.component';
 import { Meal } from 'meal-planner-types';
 import { NutrientPipe } from '../pipes/nutrient.pipe';
 import { RouterLink } from '@angular/router';
+import { MacroComparisonComponent } from '../macro-comparison/macro-comparison.component';
 
 @Component({
   selector: 'app-week-day',
@@ -17,6 +18,7 @@ import { RouterLink } from '@angular/router';
     PlannedMealComponent,
     NutrientPipe,
     RouterLink,
+    MacroComparisonComponent,
   ],
   templateUrl: './week-day.component.html',
   styleUrl: './week-day.component.css',

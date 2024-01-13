@@ -15,6 +15,9 @@ import { CategoriesEffects } from './store/categories/categories.effects';
 import { plansReducer } from './store/plans/plans.reducer';
 import { PlansEffects } from './store/plans/plans.effects';
 
+import { templatesReducer } from './store/templates/templates.reducer';
+import { TemplatesEffects } from './store/templates/templates.effects';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
@@ -23,7 +26,13 @@ export const appConfig: ApplicationConfig = {
       meals: mealsReducer,
       categories: categoriesReducer,
       plan: plansReducer,
+      templates: templatesReducer,
     }),
-    provideEffects([MealsEffects, CategoriesEffects, PlansEffects]),
+    provideEffects([
+      MealsEffects,
+      CategoriesEffects,
+      PlansEffects,
+      TemplatesEffects,
+    ]),
   ],
 };

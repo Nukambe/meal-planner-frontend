@@ -77,9 +77,12 @@ export class WeekSelectionComponent {
     const weekEnd = new Date(
       weekStart.getFullYear(),
       weekStart.getMonth(),
-      weekStart.getDate() + 6
+      weekStart.getDate() + 6,
+      23,
+      59,
+      59
     );
-
+    console.log(weekStart, weekEnd, this.today);
     return weekStart <= this.today && this.today <= weekEnd;
   }
 
