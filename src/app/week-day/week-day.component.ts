@@ -53,8 +53,6 @@ export class WeekDayComponent {
       { name: 'Protein', amount: 0, unit: 'g' },
     ];
 
-    console.log(meals);
-
     return meals.reduce((acc, meal) => {
       acc[0].amount +=
         meal?.nutrients.find((nutrient) => nutrient.name === 'Calories')
@@ -70,5 +68,9 @@ export class WeekDayComponent {
           ?.amount || 0;
       return acc;
     }, macros);
+  }
+
+  changeMacroDay() {
+    this.mealPlanService.setMacroDay(this.day);
   }
 }

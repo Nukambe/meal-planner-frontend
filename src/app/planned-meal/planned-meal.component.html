@@ -1,4 +1,4 @@
-<div class="row align-items-center">
+<div class="d-flex align-items-center">
   <div class="col-1 text-center">:::</div>
   <a [routerLink]="['meals', mealId]" class="row col btn">
     <h5 class="text-start">
@@ -21,10 +21,7 @@
       </div>
     </div>
   </a>
-  <button
-    (click)="removePlannedMeal()"
-    class="ms-auto btn btn-outline-danger col-3 col-lg-2"
-  >
+  <button (click)="removePlannedMeal()" class="ms-auto btn btn-outline-danger">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="20"

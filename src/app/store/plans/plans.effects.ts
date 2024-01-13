@@ -17,7 +17,10 @@ export class PlansEffects {
       ofType(PlanActions.getPlan),
       mergeMap(() =>
         this.plansService.getPlan().pipe(
-          rxjsMap((plannedMeals) => new MealPlan(plannedMeals)),
+          rxjsMap(
+            ({ plannedMeals, plannedGoals }) =>
+              new MealPlan(plannedMeals, plannedGoals)
+          ),
           rxjsMap((plan: MealPlan) => PlanActions.getPlanSuccess({ plan })),
           catchError(() => EMPTY)
         )

@@ -1,0 +1,85 @@
+<div
+  class="modal fade"
+  id="macrosModal"
+  tabindex="-1"
+  aria-labelledby="macrosModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h1 class="modal-title fs-5" id="macrosModalLabel">Edit Macros</h1>
+          <h2 class="fs-5 text-muted">{{ getDayOfWeek() | dayOfWeek }}</h2>
+        </div>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group list-group-flush">
+          <li
+            *ngFor="let macro of getMacros() | async | keyvalue"
+            class="list-group-item border-0 d-flex justify-content-between align-items-center"
+            [ngClass]="{ 'd-none': ['day', 'week'].includes(macro.key) }"
+          >
+            <h6 style="min-width: 64px">{{ macro.key | titlecase }}:</h6>
+            <div class="d-flex col">
+              <div class="d-flex col justify-content-center align-items-center">
+                <div class="me-4">Min</div>
+                <div class="text-center">
+                  <button
+                    class="btn p-0 w-100"
+                    (click)="setMacros(macro.key, macro.value.min + 100, true)"
+                  >
+                    ▲
+                  </button>
+                  <div class="w-100">
+                    {{ macro.value.min }}
+                  </div>
+                  <button
+                    class="btn p-0 w-100"
+                    (click)="setMacros(macro.key, macro.value.min - 100, true)"
+                  >
+                    ▼
+                  </button>
+                </div>
+              </div>
+              <div class="d-flex col justify-content-center align-items-center">
+                <div class="me-4">Max</div>
+                <div class="text-center">
+                  <button
+                    class="btn p-0 w-100"
+                    (click)="setMacros(macro.key, macro.value.max + 100, false)"
+                  >
+                    ▲
+                  </button>
+                  <div class="w-100">
+                    {{ macro.value.max }}
+                  </div>
+                  <button
+                    class="btn p-0 w-100"
+                    (click)="setMacros(macro.key, macro.value.max - 100, false)"
+                  >
+                    ▼
+                  </button>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="clearMacros()">
+          Clear
+        </button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

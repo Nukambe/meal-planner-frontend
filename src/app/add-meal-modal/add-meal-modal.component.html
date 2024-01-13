@@ -24,11 +24,13 @@
       </div>
       <div class="modal-body">
         <app-week-selection></app-week-selection>
-        <ul class="list-group list-group-horizontal">
+        <ul class="list-group list-group-horizontal mb-4">
           <li
             *ngFor="let day of daysOfWeek; let i = index"
-            class="list-group-item flex-fill text-center col"
+            class="list-group-item flex-fill text-center col selectable-day"
+            [ngClass]="{ 'selected-day': i === selectedDayOfWeek }"
             style="width: 14%"
+            (click)="selectDayOfWeek(i)"
           >
             <div class="fs-5 fw-bold">
               {{ day }}
@@ -38,7 +40,7 @@
                 ▲
               </button>
               <div>
-                {{ getNumberOfMeal((getMeals(i) | async) || []) }}
+                {{ getNumberOfMeal((getMealIds(i) | async) || []) }}
               </div>
               <button class="btn p-0" (click)="adjustMealCount(i, false)">
                 ▼
@@ -46,6 +48,28 @@
             </div>
           </li>
         </ul>
+        <div [ngSwitch]="selectedDayOfWeek">
+          <div *ngFor="let day of daysOfWeek; let i = index">
+            <div *ngSwitchCase="i">
+              <h6 class="fs-5">
+                {{ i | dayOfWeek }}
+              </h6>
+              <ul class="list-group list-group-flush list-group-horizontal-sm">
+                <li
+                  *ngFor="
+                    let macro of getDailyMacros((getMeals(i) | async) || []);
+                    let i = index
+                  "
+                  class="list-group-item text-nowrap text-start flex-fill border-0 w-25 px-1"
+                >
+                  <span class="fw-semibold">{{ macro.name | nutrient }}</span>
+                  : <span class="fw-normal">{{ macro.amount }}</span>
+                  {{ macro.unit }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button

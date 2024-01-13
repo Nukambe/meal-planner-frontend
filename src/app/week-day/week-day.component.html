@@ -1,12 +1,13 @@
 <div class="row">
-  <div class="row align-items-center">
-    <button class="col-2 col-lg-1">Apply Template</button>
-    <div class="row col" (click)="showMeals = !showMeals">
-      <h4 class="col col-lg-2">
-        {{ day | dayOfWeek }}
-      </h4>
+  <div class="d-flex align-items-center">
+    <button class="align-items-center btn col" (click)="showMeals = !showMeals">
+      <div class="d-flex justify-content-between">
+        <h4 class="">
+          {{ day | dayOfWeek }}
+        </h4>
+      </div>
       <ul
-        class="list-group list-group-flush list-group-horizontal col col-lg-9 ms-auto"
+        class="list-group list-group-flush list-group-horizontal flex-wrap"
         [ngClass]="{ 'border-bottom': showMeals }"
       >
         <li
@@ -14,17 +15,37 @@
             let macro of getDailyMacros((getMeals() | async) || []);
             let i = index
           "
-          class="list-group-item col text-nowrap text-start flex-fill border-0"
-          [ngClass]="{
-            'd-none d-lg-block': i > 0
-          }"
+          class="list-group-item w-25 text-start flex-fill border-0 p-0 d-md-flex align-items-end"
         >
-          <span class="fw-semibold">{{ macro.name | nutrient }}</span>
-          : <span class="fs-4 fw-normal">{{ macro.amount }}</span>
-          {{ macro.unit }}
+          <div class="fw-semibold me-2">{{ macro.name | nutrient }}</div>
+          <span class="fs-5 fw-normal me-1">{{ macro.amount }} </span>
+          <span class="">
+            {{ macro.unit }}
+          </span>
         </li>
       </ul>
-    </div>
+    </button>
+    <button
+      type="button"
+      class="btn align-self-start p-1"
+      data-bs-toggle="modal"
+      data-bs-target="#macrosModal"
+      (click)="changeMacroDay()"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        fill="currentColor"
+        class="bi bi-sliders"
+        viewBox="0 0 16 16"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1z"
+        />
+      </svg>
+    </button>
   </div>
   <ol
     class="list-group list-group-flush"

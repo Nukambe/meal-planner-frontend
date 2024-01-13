@@ -4,9 +4,19 @@
     <app-week-selection></app-week-selection>
   </div>
   <!-- <app-weekly-macros></app-weekly-macros> -->
-  <ol class="list-group">
+  <button
+    type="button"
+    class="btn btn-primary mb-2"
+    data-bs-toggle="modal"
+    data-bs-target="#shoppingListModal"
+  >
+    Shopping List
+  </button>
+  <ol class="list-group" style="min-width: 400px">
     <li *ngFor="let day of [0, 1, 2, 3, 4, 5, 6]" class="list-group-item">
       <app-week-day [day]="day"></app-week-day>
     </li>
   </ol>
 </div>
+<app-shopping-list-modal></app-shopping-list-modal>
+<app-macros-modal></app-macros-modal>

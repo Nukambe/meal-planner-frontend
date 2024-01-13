@@ -1,0 +1,44 @@
+<div
+  class="modal fade"
+  id="shoppingListModal"
+  tabindex="-1"
+  aria-labelledby="shoppingListModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="shoppingListModalLabel">
+          Shopping List
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group list-group-flush">
+          <li
+            *ngFor="
+              let ingredient of getShoppingList((getMeals() | async) || [])
+            "
+            class="list-group-item d-flex justify-content-between align-items-center"
+          >
+            <span>{{ ingredient.name | titlecase }}</span>
+            <span>
+              {{ ingredient.amount }}
+              {{ ingredient.unit }}<span *ngIf="ingredient.amount > 1">s</span>
+            </span>
+          </li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

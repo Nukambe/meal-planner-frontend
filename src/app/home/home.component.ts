@@ -4,6 +4,8 @@ import { WeekComponent } from './week/week.component';
 import { WeeklyMacrosComponent } from '../weekly-macros/weekly-macros.component';
 import { WeekDayComponent } from '../week-day/week-day.component';
 import { WeekSelectionComponent } from '../week-selection/week-selection.component';
+import { ShoppingListModalComponent } from '../shopping-list-modal/shopping-list-modal.component';
+import { MacrosModalComponent } from '../macros-modal/macros-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +16,8 @@ import { WeekSelectionComponent } from '../week-selection/week-selection.compone
     WeeklyMacrosComponent,
     WeekDayComponent,
     WeekSelectionComponent,
+    ShoppingListModalComponent,
+    MacrosModalComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',

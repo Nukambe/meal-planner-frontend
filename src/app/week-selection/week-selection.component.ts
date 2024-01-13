@@ -18,11 +18,10 @@ export class WeekSelectionComponent {
   displayWeeks: { start: Date; current: boolean }[] = [];
   weekObserver: IntersectionObserver;
   weekTimer: NodeJS.Timeout | undefined;
-  ngOnDestroyed$ = new Subject<void>();
 
   constructor(private readonly mealPlanService: MealPlanService) {
     this.weekObserver = new IntersectionObserver(this.onIntersection, {
-      threshold: 0.5,
+      threshold: 0.6,
     });
   }
 
@@ -99,7 +98,5 @@ export class WeekSelectionComponent {
 
   ngOnDestroy(): void {
     this.weekObserver.disconnect();
-    this.ngOnDestroyed$.next();
-    this.ngOnDestroyed$.complete();
   }
 }

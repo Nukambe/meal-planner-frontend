@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Meal, MealPlan } from 'meal-planner-types';
+import { Meal, MealPlan, plannedGoal } from 'meal-planner-types';
 import { Store } from '@ngrx/store';
 import { Observable, firstValueFrom, switchMap, take } from 'rxjs';
 import { dayOfWeek } from 'meal-planner-types';
@@ -10,7 +10,9 @@ import * as MealPlanActions from './store/plans/plans.actions';
 })
 export class MealPlanService {
   private modalMealId: number = 0;
+  private modalDay: dayOfWeek = dayOfWeek.Sunday;
   private activeWeek: string = '1/7/24';
+
   constructor(private readonly store: Store<any>) {}
   // Active Week --------------------------------------------------------------
   getActiveWeek(): string {
@@ -89,7 +91,10 @@ export class MealPlanService {
     this.getMealPlan()
       .pipe(take(1))
       .subscribe((plan) => {
-        const newPlan = new MealPlan(plan.getAllPlannedMeals());
+        const newPlan = new MealPlan(
+          plan.getAllPlannedMeals(),
+          plan.getAllPlannedGoals()
+        );
         newPlan.removePlannedMeal(week, day, index);
         this.store.dispatch(MealPlanActions.modifyPlan({ plan: newPlan }));
       });
@@ -99,10 +104,54 @@ export class MealPlanService {
     this.getMealPlan()
       .pipe(take(1))
       .subscribe((plan) => {
-        const newPlan = new MealPlan([
-          ...plan.getAllPlannedMeals(),
-          { week, day, id: mealId },
+        const newPlan = new MealPlan(
+          [...plan.getAllPlannedMeals(), { week, day, id: mealId }],
+          plan.getAllPlannedGoals()
+        );
+        this.store.dispatch(MealPlanActions.modifyPlan({ plan: newPlan }));
+      });
+  }
+  // Macros ------------------------------------------------------------------
+  getMacrosByWeek(week: string): Observable<plannedGoal[]> {
+    return this.store.select((state: { plan: { plan: MealPlan } }) =>
+      state.plan.plan.getPlannedGoalsByWeek(week)
+    );
+  }
+
+  getMacrosByDay(week: string, day: dayOfWeek) {
+    return this.store.select((state: { plan: { plan: MealPlan } }) => {
+      const macros = state.plan.plan.getPlannedGoalsByDay(week, day);
+      return {
+        calories: macros.calories,
+        carbs: macros.carbs,
+        fat: macros.fat,
+        protein: macros.protein,
+      };
+    });
+  }
+
+  addPlannedMacros(macros: plannedGoal) {
+    console.log('addPlannedMacros: ', macros);
+    this.getMealPlan()
+      .pipe(take(1))
+      .subscribe((plan) => {
+        const newPlan = new MealPlan(plan.getAllPlannedMeals(), [
+          ...plan.getAllPlannedGoals(),
+          macros,
         ]);
+        this.store.dispatch(MealPlanActions.modifyPlan({ plan: newPlan }));
+      });
+  }
+
+  removePlannedMacros(week: string, day: dayOfWeek) {
+    this.getMealPlan()
+      .pipe(take(1))
+      .subscribe((plan) => {
+        const newPlan = new MealPlan(
+          plan.getAllPlannedMeals(),
+          plan.getAllPlannedGoals()
+        );
+        newPlan.removePlannedGoal(week, day);
         this.store.dispatch(MealPlanActions.modifyPlan({ plan: newPlan }));
       });
   }
@@ -113,5 +162,13 @@ export class MealPlanService {
 
   getModalMealId(): number {
     return this.modalMealId;
+  }
+  // Edit Macros Modal ---------------------------------------------------------------
+  setMacroDay(day: dayOfWeek) {
+    this.modalDay = day;
+  }
+
+  getMacroDay(): dayOfWeek {
+    return this.modalDay;
   }
 }

@@ -10,8 +10,7 @@ import { RouterModule } from '@angular/router';
 })
 export class HeaderComponent {
   routes: { path: string; label: string }[] = [
-    { path: '', label: 'Meal Planner' },
-    { path: '/shopping-list', label: 'Shopping List' },
+    { path: '', label: 'Dashboard' },
     { path: '/meals', label: 'Meals' },
   ];
 }
