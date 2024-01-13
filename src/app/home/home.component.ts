@@ -6,6 +6,7 @@ import { WeekDayComponent } from '../week-day/week-day.component';
 import { WeekSelectionComponent } from '../week-selection/week-selection.component';
 import { ShoppingListModalComponent } from '../shopping-list-modal/shopping-list-modal.component';
 import { MacrosModalComponent } from '../macros-modal/macros-modal.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -18,6 +19,7 @@ import { MacrosModalComponent } from '../macros-modal/macros-modal.component';
     WeekSelectionComponent,
     ShoppingListModalComponent,
     MacrosModalComponent,
+    RouterLink,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',

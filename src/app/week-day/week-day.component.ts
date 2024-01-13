@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MealPlanService } from '../meal-plan.service';
 import { dayOfWeek } from 'meal-planner-types';
-import { Observable, take } from 'rxjs';
 import { DayOfWeekPipe } from '../pipes/day-of-week.pipe';
 import { PlannedMealComponent } from '../planned-meal/planned-meal.component';
 import { Meal } from 'meal-planner-types';
@@ -34,7 +33,7 @@ export class WeekDayComponent {
 
   getListHeight(items: number[]): string {
     if (!this.showMeals) return '0px';
-    return (items.length + 1) * 100 + 'px';
+    return (items.length + 0.5) * 100 + 'px';
   }
 
   getDailyMealIds() {

@@ -2,11 +2,12 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MealPlanService } from '../meal-plan.service';
 import { CommonModule } from '@angular/common';
 import { WeekSelectionComponent } from '../week-selection/week-selection.component';
-import { take } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { dayOfWeek } from 'meal-planner-types';
 import { DayOfWeekPipe } from '../pipes/day-of-week.pipe';
 import { NutrientPipe } from '../pipes/nutrient.pipe';
 import { Meal } from 'meal-planner-types';
+import { Macros } from '../macros-modal/macros-modal.component';
 
 @Component({
   selector: 'app-add-meal-modal',
@@ -98,6 +99,24 @@ export class AddMealModalComponent {
           ?.amount || 0;
       return acc;
     }, macros);
+  }
+
+  getMacroGoals(): Observable<Macros> {
+    return this.mealPlanService.getMacrosByDay(
+      this.getWeek(),
+      this.selectedDayOfWeek
+    );
+  }
+
+  getMacroComparison(key: string, value: number, macros: Macros | null) {
+    if (!macros) return { remainder: 0, type: '' };
+    const { min, max } = macros[key.toLowerCase() as keyof Macros];
+    if (value < min)
+      return { remainder: min - value, type: false, symbol: '▼' };
+    if (max === 0) return { remainder: '', type: true, symbol: '' };
+    if (value > max)
+      return { remainder: value - max, type: false, symbol: '▲' };
+    return { remainder: max - value, symbol: '▼', type: true };
   }
 
   closeModal() {}

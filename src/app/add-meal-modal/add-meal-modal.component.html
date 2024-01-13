@@ -62,9 +62,43 @@
                   "
                   class="list-group-item text-nowrap text-start flex-fill border-0 w-25 px-1"
                 >
-                  <span class="fw-semibold">{{ macro.name | nutrient }}</span>
-                  : <span class="fw-normal">{{ macro.amount }}</span>
-                  {{ macro.unit }}
+                  <div>
+                    <span class="fw-semibold me-1">
+                      {{ macro.name | nutrient }}
+                    </span>
+                    <span class="fw-normal">
+                      {{ macro.amount }}
+                    </span>
+                    {{ macro.unit }}
+                  </div>
+                  <div
+                    [ngStyle]="{
+                      color: getMacroComparison(
+                        macro.name,
+                        macro.amount,
+                        getMacroGoals() | async
+                      ).type
+                        ? 'green'
+                        : 'red'
+                    }"
+                  >
+                    {{
+                      getMacroComparison(
+                        macro.name,
+                        macro.amount,
+                        getMacroGoals() | async
+                      ).remainder
+                    }}
+                    <span>
+                      {{
+                        getMacroComparison(
+                          macro.name,
+                          macro.amount,
+                          getMacroGoals() | async
+                        ).symbol
+                      }}
+                    </span>
+                  </div>
                 </li>
               </ul>
             </div>
