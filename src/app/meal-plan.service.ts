@@ -1,5 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Meal, MealPlan, MealTemplate, plannedGoal } from 'meal-planner-types';
+import {
+  Meal,
+  MealPlan,
+  MealTemplate,
+  plannedGoal,
+  plannedGoals,
+  plannedMeals,
+} from 'meal-planner-types';
 import { Store } from '@ngrx/store';
 import { Observable, firstValueFrom, switchMap, take } from 'rxjs';
 import { dayOfWeek } from 'meal-planner-types';
@@ -112,7 +119,10 @@ export class MealPlanService {
       });
   }
 
-  applyTemplate(week: string, template: MealTemplate) {
+  applyTemplate(
+    week: string,
+    template: { meals: plannedMeals; goals: plannedGoals }
+  ) {
     this.getMealPlan()
       .pipe(take(1))
       .subscribe((plan) => {
@@ -120,10 +130,10 @@ export class MealPlanService {
           plan.getAllPlannedMeals(),
           plan.getAllPlannedGoals()
         );
-        newPlan.applyWeeklyTemplate(week, {
-          meals: { ['0/0/00']: template.meals },
-          goals: { ['0/0/00']: template.goals },
-        });
+        console.log('previous', newPlan.getPlannedGoalsByWeek(week));
+        console.log('goals to insert', template.goals);
+        newPlan.applyWeeklyTemplate(week, template);
+        console.log('new', newPlan.getPlannedGoalsByWeek(week));
         this.store.dispatch(MealPlanActions.modifyPlan({ plan: newPlan }));
       });
   }

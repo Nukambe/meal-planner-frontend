@@ -44,10 +44,13 @@ export class HomeComponent {
       .getTemplates()
       .pipe(take(1))
       .subscribe((templates) => {
-        const template = templates[index];
+        const { meals, goals } = templates[index];
         this.mealPlanService.applyTemplate(
           this.mealPlanService.getActiveWeek(),
-          template
+          {
+            meals: { '0/0/00': meals },
+            goals: { '0/0/00': goals },
+          }
         );
       });
   }
