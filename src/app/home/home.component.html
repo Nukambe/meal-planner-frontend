@@ -4,14 +4,48 @@
     <app-week-selection></app-week-selection>
   </div>
   <!-- <app-weekly-macros></app-weekly-macros> -->
-  <button
-    type="button"
-    class="btn btn-primary mb-2"
-    data-bs-toggle="modal"
-    data-bs-target="#shoppingListModal"
-  >
-    Shopping List
-  </button>
+  <div class="d-flex justify-content-between mb-2">
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#shoppingListModal"
+    >
+      Shopping List
+    </button>
+    <div [ngSwitch]="applyingTemplate">
+      <button
+        *ngSwitchCase="false"
+        type="button"
+        class="btn btn-success"
+        (click)="applyingTemplate = true"
+      >
+        Apply Template
+      </button>
+      <div class="d-flex" *ngSwitchCase="true">
+        <button
+          (click)="applyTemplate(+selectTemplate.value)"
+          class="btn btn-success rounded-circle me-2"
+        >
+          ✓
+        </button>
+        <button
+          (click)="applyingTemplate = false"
+          class="btn btn-danger rounded-circle me-4"
+        >
+          ✕
+        </button>
+        <select class="form-select" #selectTemplate>
+          <option
+            *ngFor="let template of getTemplates() | async; let i = index"
+            [value]="i"
+          >
+            {{ template.title }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
   <ol class="list-group" style="min-width: 400px">
     <li *ngFor="let day of [0, 1, 2, 3, 4, 5, 6]" class="list-group-item">
       <app-week-day [day]="day"></app-week-day>
