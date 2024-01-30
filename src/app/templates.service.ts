@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as TemplatesActions from './store/templates/templates.actions';
-import { MealTemplate } from 'meal-planner-types';
+import { Meal, MealTemplate, dayOfWeek } from 'meal-planner-types';
 import { take } from 'rxjs';
 
 @Injectable({
@@ -79,5 +79,31 @@ export class TemplatesService {
           TemplatesActions.modifyTemplate({ templates: newTemplates })
         );
       });
+  }
+
+  getTemplateMealsForDay(template: number, day: dayOfWeek) {
+    return this.store.select(
+      (state: {
+        templates: { templates: MealTemplate[] };
+        meals: { meals: Meal[] };
+      }) => {
+        const mealIds = state.templates.templates[template].meals[day];
+        return mealIds.map((id) => state.meals.meals.find((m) => m.id === id));
+      }
+    );
+  }
+
+  getTemplateGoalsForDay(template: number, day: dayOfWeek) {
+    return this.store.select(
+      (state: { templates: { templates: MealTemplate[] } }) => {
+        const goals = state.templates.templates[template].goals[day];
+        return {
+          calories: goals.calories,
+          carbs: goals.carbs,
+          fat: goals.fat,
+          protein: goals.protein,
+        };
+      }
+    );
   }
 }

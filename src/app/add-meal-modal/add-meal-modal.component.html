@@ -1,3 +1,60 @@
+<!-- PLAN OR TEMPLATE -->
+
+<div
+  class="modal fade"
+  id="addWhereModal"
+  tabindex="-1"
+  aria-labelledby="addWhereModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="addMealBackdropLabel">
+          Add Meal: {{ (getMeal() | async)?.title }}
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="closeModal()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <button
+          type="button"
+          class="btn btn-success col-12 mb-4"
+          data-bs-toggle="modal"
+          data-bs-target="#addMealBackdrop"
+        >
+          Planner
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary col-12"
+          data-bs-toggle="modal"
+          data-bs-target="#addToTemplateModal"
+        >
+          Template
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-danger"
+          data-bs-dismiss="modal"
+          (click)="closeModal()"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PLAN -->
+
 <div
   class="modal fade"
   id="addMealBackdrop"
@@ -59,6 +116,168 @@
         </div>
       </div>
       <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-toggle="modal"
+          data-bs-target="#addWhereModal"
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-dismiss="modal"
+          (click)="closeModal()"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TEMPLATE -->
+
+<div
+  class="modal fade"
+  id="addToTemplateModal"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="addToTemplateModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="addMealBackdropLabel">
+          Add Meal: {{ (getMeal() | async)?.title }}
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="closeModal()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <select
+          class="form-select mb-4"
+          (change)="changeTemplate($event)"
+          #selectTemplate
+        >
+          <option
+            *ngFor="let template of getTemplates() | async; let i = index"
+            [value]="i"
+          >
+            {{ template.title }}
+          </option>
+        </select>
+        <ul class="list-group list-group-horizontal mb-4">
+          <li
+            *ngFor="let day of daysOfWeek; let i = index"
+            class="list-group-item flex-fill text-center col selectable-day"
+            [ngClass]="{ 'selected-day': i === selectedDayOfWeek }"
+            style="width: 14%"
+            (click)="selectDayOfWeek(i)"
+          >
+            <div class="fs-5 fw-bold">
+              {{ day }}
+            </div>
+            <div>
+              <button
+                class="btn p-0"
+                (click)="adjustTemplateCount(+selectTemplate.value, true, i)"
+              >
+                ▲
+              </button>
+              <div>
+                {{
+                  getTemplateMeals(
+                    getTemplates() | async,
+                    +selectTemplate.value,
+                    i
+                  )
+                }}
+              </div>
+              <button
+                class="btn p-0"
+                (click)="adjustTemplateCount(+selectTemplate.value, false, i)"
+              >
+                ▼
+              </button>
+            </div>
+          </li>
+        </ul>
+        <div [ngSwitch]="selectedDayOfWeek">
+          <div *ngFor="let day of daysOfWeek; let i = index">
+            <div *ngSwitchCase="i">
+              <h6 class="fs-5">
+                {{ i | dayOfWeek }}
+              </h6>
+              <ul class="list-group list-group-flush list-group-horizontal-sm">
+                <li
+                  *ngFor="
+                    let macro of getDayNutrition(
+                      getTemplateMealsForDay(i) | async
+                    ) | keyvalue;
+                    let i = index
+                  "
+                  class="list-group-item text-nowrap text-start flex-fill border-0 w-25 px-1"
+                >
+                  <div>
+                    <span class="fw-semibold me-1">
+                      {{ macro.key | nutrient }}
+                    </span>
+                    <span class="fw-normal">
+                      {{ macro.value }}
+                    </span>
+                  </div>
+                  <div
+                    [ngStyle]="{
+                      color: getTemplateComparison(
+                        macro.value,
+                        getTemplateMacros(i) | async,
+                        macro.key
+                      ).type
+                        ? 'green'
+                        : 'red'
+                    }"
+                  >
+                    {{
+                      getTemplateComparison(
+                        macro.value,
+                        getTemplateMacros(i) | async,
+                        macro.key
+                      ).remainder
+                    }}
+                    <span>
+                      {{
+                        getTemplateComparison(
+                          macro.value,
+                          getTemplateMacros(i) | async,
+                          macro.key
+                        ).symbol
+                      }}
+                    </span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-toggle="modal"
+          data-bs-target="#addWhereModal"
+        >
+          Back
+        </button>
         <button
           type="button"
           class="btn btn-primary"
