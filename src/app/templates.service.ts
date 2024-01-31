@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import * as TemplatesActions from './store/templates/templates.actions';
 import { Meal, MealTemplate, dayOfWeek } from 'meal-planner-types';
 import { take } from 'rxjs';
+import { state } from '@angular/animations';
 
 @Injectable({
   providedIn: 'root',
@@ -87,8 +88,8 @@ export class TemplatesService {
         templates: { templates: MealTemplate[] };
         meals: { meals: Meal[] };
       }) => {
-        const mealIds = state.templates.templates[template].meals[day];
-        return mealIds.map((id) => state.meals.meals.find((m) => m.id === id));
+        const mealIds = state.templates.templates[template]?.meals[day];
+        return mealIds?.map((id) => state.meals.meals.find((m) => m.id === id));
       }
     );
   }
@@ -96,7 +97,15 @@ export class TemplatesService {
   getTemplateGoalsForDay(template: number, day: dayOfWeek) {
     return this.store.select(
       (state: { templates: { templates: MealTemplate[] } }) => {
-        const goals = state.templates.templates[template].goals[day];
+        const goals = state.templates.templates[template]?.goals[day];
+        if (!goals) {
+          return {
+            calories: { min: 0, max: 0 },
+            carbs: { min: 0, max: 0 },
+            fat: { min: 0, max: 0 },
+            protein: { min: 0, max: 0 },
+          };
+        }
         return {
           calories: goals.calories,
           carbs: goals.carbs,
@@ -105,5 +114,19 @@ export class TemplatesService {
         };
       }
     );
+  }
+
+  getTemplateMealsForWeek(template: MealTemplate) {
+    return this.store.select((state: { meals: { meals: Meal[] } }) => {
+      const mealIds: number[] = [];
+      for (let i = 0; i < 7; i++) {
+        mealIds.push(...template.meals[i as dayOfWeek]);
+      }
+
+      const meals = mealIds.map(
+        (id) => state.meals.meals.find((m) => m.id === id)!
+      );
+      return meals;
+    });
   }
 }

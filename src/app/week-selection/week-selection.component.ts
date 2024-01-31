@@ -82,7 +82,6 @@ export class WeekSelectionComponent {
       59,
       59
     );
-    console.log(weekStart, weekEnd, this.today);
     return weekStart <= this.today && this.today <= weekEnd;
   }
 

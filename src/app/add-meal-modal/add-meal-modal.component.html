@@ -163,11 +163,7 @@
         ></button>
       </div>
       <div class="modal-body">
-        <select
-          class="form-select mb-4"
-          (change)="changeTemplate($event)"
-          #selectTemplate
-        >
+        <select class="form-select mb-4" [(ngModel)]="selectedTemplateIndex">
           <option
             *ngFor="let template of getTemplates() | async; let i = index"
             [value]="i"
@@ -189,7 +185,7 @@
             <div>
               <button
                 class="btn p-0"
-                (click)="adjustTemplateCount(+selectTemplate.value, true, i)"
+                (click)="adjustTemplateCount(selectedTemplateIndex, true, i)"
               >
                 ▲
               </button>
@@ -197,14 +193,14 @@
                 {{
                   getTemplateMeals(
                     getTemplates() | async,
-                    +selectTemplate.value,
+                    selectedTemplateIndex,
                     i
                   )
                 }}
               </div>
               <button
                 class="btn p-0"
-                (click)="adjustTemplateCount(+selectTemplate.value, false, i)"
+                (click)="adjustTemplateCount(selectedTemplateIndex, false, i)"
               >
                 ▼
               </button>

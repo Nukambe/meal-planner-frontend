@@ -10,6 +10,7 @@ import { NutrientFilterPipe } from '../pipes/nutrient-filter.pipe';
 import { MacroComparisonComponent } from '../macro-comparison/macro-comparison.component';
 import { TemplatesService } from '../templates.service';
 import { TemplateComparisonComponent } from '../template-comparison/template-comparison.component';
+import { FormsModule } from '@angular/forms';
 import { Macros } from '../macros-modal/macros-modal.component';
 
 @Component({
@@ -23,6 +24,7 @@ import { Macros } from '../macros-modal/macros-modal.component';
     NutrientFilterPipe,
     MacroComparisonComponent,
     TemplateComparisonComponent,
+    FormsModule,
   ],
   templateUrl: './add-meal-modal.component.html',
   styleUrl: './add-meal-modal.component.css',
@@ -53,7 +55,7 @@ export class AddMealModalComponent {
   }
 
   getNumberOfMeal(meals: number[]) {
-    return meals.reduce((acc, meal) => {
+    return meals?.reduce((acc, meal) => {
       if (meal === this.getMealId()) acc++;
       return acc;
     }, 0);
@@ -134,12 +136,11 @@ export class AddMealModalComponent {
     day: number
   ) {
     if (!templates) return [];
-    return this.getNumberOfMeal(templates[index].meals[day as dayOfWeek]);
+    return this.getNumberOfMeal(templates[index]?.meals[day as dayOfWeek]);
   }
 
   changeTemplate(event: Event) {
     const index = (event.target as HTMLInputElement).value;
-    console.log('index: ', index);
     this.selectedTemplateIndex = +index;
   }
 

@@ -1,22 +1,31 @@
-<div class="d-flex">
+<div class="d-flex" [ngStyle]="{ height: '80px', width: '100%' }">
   <button
     class="col d-flex align-items-center btn"
     data-bs-toggle="modal"
     data-bs-target="#editTemplateModal"
     (click)="editTemplate()"
   >
-    <div class="ms-3 me-5 row border rounded-3">
-      <div class="col p-0">1</div>
-      <div class="col p-0">2</div>
-      <div class="w-100"></div>
-      <div class="col p-0">3</div>
-      <div class="col p-0">4</div>
+    <div
+      class="ms-3 me-2 row border rounded-3"
+      [ngStyle]="{
+        display: 'flex',
+        flexWrap: 'wrap',
+        height: '100%',
+        width: '80px',
+        overflow: 'hidden'
+      }"
+    >
+      <img
+        *ngFor="let meal of getTemplateMeals() | async | slice : 0 : 4"
+        [src]="meal?.image"
+        [alt]="meal?.title"
+        [ngStyle]="{ width: '50%', height: '50%', padding: '0' }"
+      />
     </div>
-    <div class="col text-start">
+    <div class="col text-start text-truncate">
       <h4 class="fs-4">
         {{ template?.title }}
       </h4>
-      <div>cal carbs fat protein</div>
     </div>
   </button>
 </div>
