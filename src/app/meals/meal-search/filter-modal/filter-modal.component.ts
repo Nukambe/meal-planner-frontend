@@ -36,7 +36,19 @@ export class FilterModalComponent {
     Protein: 'ProteinOrder',
   };
 
-  constructor(private readonly filterService: FilterService) {}
+  constructor(private readonly filterService: FilterService) {
+    const appliedFilters = this.filterService.getAppliedFilters();
+    this.filterGroup.setValue({
+      Calories: appliedFilters.Calories.value,
+      CalorieOrder: appliedFilters.Calories.order,
+      Carbs: appliedFilters.Carbs.value,
+      CarbOrder: appliedFilters.Carbs.order,
+      Fat: appliedFilters.Fat.value,
+      FatOrder: appliedFilters.Fat.order,
+      Protein: appliedFilters.Protein.value,
+      ProteinOrder: appliedFilters.Protein.order,
+    });
+  }
 
   changeOrder(filter: string) {
     const order = this.filterGroup.get(filter);
@@ -60,19 +72,19 @@ export class FilterModalComponent {
     this.filterService.setAppliedFilters({
       Calories: {
         value: this.filterGroup.get('Calories')?.value || 0,
-        order: this.filterGroup.get('CalorieOrder')?.value || true,
+        order: this.filterGroup.get('CalorieOrder')!.value!,
       },
       Carbs: {
         value: this.filterGroup.get('Carbs')?.value || 0,
-        order: this.filterGroup.get('CarbOrder')?.value || true,
+        order: this.filterGroup.get('CarbOrder')!.value!,
       },
       Fat: {
         value: this.filterGroup.get('Fat')?.value || 0,
-        order: this.filterGroup.get('FatOrder')?.value || true,
+        order: this.filterGroup.get('FatOrder')!.value!,
       },
       Protein: {
         value: this.filterGroup.get('Protein')?.value || 0,
-        order: this.filterGroup.get('ProteinOrder')?.value || true,
+        order: this.filterGroup.get('ProteinOrder')!.value!,
       },
     });
   }

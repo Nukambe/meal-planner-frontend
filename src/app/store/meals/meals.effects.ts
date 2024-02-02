@@ -15,11 +15,15 @@ export class MealsEffects {
   getAllMeals = createEffect(() =>
     this.actions$.pipe(
       ofType(MealActions.getAllMeals),
-      mergeMap(() =>
-        this.mealsService.getAllMeals().pipe(
-          rxjsMap((meals: Meal[]) => MealActions.getAllMealsSuccess({ meals })),
-          catchError(() => EMPTY)
-        )
+      mergeMap((action) =>
+        this.mealsService
+          .getAllMeals(action.title, action.filters, action.page)
+          .pipe(
+            rxjsMap((meals: Meal[]) =>
+              MealActions.getAllMealsSuccess({ meals })
+            ),
+            catchError(() => EMPTY)
+          )
       )
     )
   );

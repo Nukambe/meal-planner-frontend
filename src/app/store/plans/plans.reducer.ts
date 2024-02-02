@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import * as PlansActions from './plans.actions';
 import { MealPlan } from 'meal-planner-types';
-import { sampleMeals } from '../meals/meals.reducer';
+// import { sampleMeals } from '../meals/meals.reducer';
 import { plannedGoal } from 'meal-planner-types';
 
 export interface PlansState {
@@ -37,7 +37,7 @@ const sampleGoals: plannedGoal[] = [
 
 export const initialState: PlansState = {
   plan: new MealPlan(
-    sampleMeals.map((meal) => ({ week: '1/7/24', day: 3, id: meal.id })),
+    [].map((meal) => ({ week: '1/7/24', day: 3, id: meal })),
     sampleGoals
   ),
 };

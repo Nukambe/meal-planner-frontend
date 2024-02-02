@@ -8,7 +8,26 @@ export class MealsService {
 
   constructor(private readonly http: HttpClient) {}
 
-  getAllMeals(): Observable<any> {
-    return this.http.get('/api/meals');
+  getAllMeals(title: string, filters: any, page: number): Observable<any> {
+    const query: any = {};
+    query.title = title;
+    query.offset = page * 9;
+    if (filters.Calories.value > 0) {
+      if (filters.Calories.order) query.minCalories = filters.Calories.value;
+      else query.maxCalories = filters.Calories.value;
+    }
+    if (filters.Carbs.value > 0) {
+      if (filters.Carbs.order) query.minCarbs = filters.Carbs.value;
+      else query.maxCarbs = filters.Carbs.value;
+    }
+    if (filters.Fat.value > 0) {
+      if (filters.Fat.order) query.minFat = filters.Fat.value;
+      else query.maxFat = filters.Fat.value;
+    }
+    if (filters.Protein.value > 0) {
+      if (filters.Protein.order) query.minProtein = filters.Protein.value;
+      else query.maxProtein = filters.Protein.value;
+    }
+    return this.http.get(`/api/meals?${new URLSearchParams(query).toString()}`);
   }
 }

@@ -18,7 +18,5 @@ export class AppComponent implements OnInit {
 
   constructor(private store: Store<any>) {}
 
-  ngOnInit(): void {
-    this.store.dispatch(MealsActions.getAllMeals());
-  }
+  ngOnInit(): void {}
 }

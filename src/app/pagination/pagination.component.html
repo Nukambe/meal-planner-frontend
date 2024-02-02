@@ -1,0 +1,16 @@
+<div class="col-12">
+  <div
+    class="m-auto text-center bg-light rounded-pill px-5"
+    style="width: fit-content"
+  >
+    <button
+      class="btn btn-link"
+      [disabled]="getPage() === 0"
+      (click)="onPageChange(-1)"
+    >
+      <
+    </button>
+    {{ getPage() + 1 }}
+    <button class="btn btn-link" (click)="onPageChange(1)">></button>
+  </div>
+</div>

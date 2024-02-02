@@ -1,4 +1,4 @@
-<form class="my-4">
+<form class="my-4" (submit)="onSubmitSearch($event)">
   <div class="form-group">
     <label for="mealName" class="visually-hidden">Meal Name</label>
     <div class="d-flex border rounded-pill">
@@ -20,7 +20,7 @@
             d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"
           />
         </svg>
-        <div class="d-none d-md-inline">Filter</div>
+        <!-- <div class="d-none d-md-inline">Filter</div> -->
       </button>
       <input
         type="search"
@@ -28,8 +28,14 @@
         id="mealName"
         aria-describedby="mealNameHelp"
         placeholder="Enter meal name"
+        [formControl]="mealTitle"
       />
-      <button class="col-1 rounded-end-pill border-0 text-muted">Search</button>
+      <button
+        type="button"
+        class="col-2 col-lg-1 rounded-end-pill border-0 text-muted btn-info d-flex align-items-center justify-content-center gap-2"
+      >
+        O-
+      </button>
     </div>
   </div>
 </form>

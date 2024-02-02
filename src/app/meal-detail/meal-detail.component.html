@@ -2,7 +2,7 @@
   <div class="row d-flex justify-content-between">
     <div id="mealTitle">
       <h2>{{ (meal$ | async)?.title }}</h2>
-      <p>{{ (meal$ | async)?.summary }}</p>
+      <p [innerHTML]="(meal$ | async)?.summary"></p>
       <div class="">
         <button
           type="button"
@@ -47,7 +47,7 @@
       id="mealImage"
       [src]="(meal$ | async)?.image"
       [alt]="(meal$ | async)?.title"
-      style="border-radius: 8%"
+      [style]="{ borderRadius: '6em', objectFit: 'cover' }"
     />
   </div>
   <div

@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import * as TemplatesActions from './templates.actions';
 import { MealTemplate } from 'meal-planner-types';
-import { sampleMeals } from '../meals/meals.reducer';
+// import { sampleMeals } from '../meals/meals.reducer';
 
 export interface TemplatesState {
   templates: MealTemplate[];
@@ -10,13 +10,13 @@ export interface TemplatesState {
 const sampleTemplate = {
   title: 'Template 1',
   meals: {
-    0: [sampleMeals[0].id, sampleMeals[1].id],
+    0: [],
     1: [],
-    2: [sampleMeals[0].id, sampleMeals[1].id],
+    2: [],
     3: [],
-    4: [sampleMeals[1].id, sampleMeals[1].id],
+    4: [],
     5: [],
-    6: [sampleMeals[0].id, sampleMeals[0].id],
+    6: [],
   },
   goals: {
     0: {

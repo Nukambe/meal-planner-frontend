@@ -2,40 +2,16 @@
   <app-meal-search></app-meal-search>
   <ul class="list-group list-group-flush list-group-horizontal flex-wrap">
     <li
-      *ngFor="let meal of getMeals() | async"
-      class="list-group-item border-0"
-    >
-      <app-meal [meal]="meal"></app-meal>
-    </li>
-    <li
-      *ngFor="let meal of getMeals() | async"
-      class="list-group-item border-0"
-    >
-      <app-meal [meal]="meal"></app-meal>
-    </li>
-    <li
-      *ngFor="let meal of getMeals() | async"
-      class="list-group-item border-0"
-    >
-      <app-meal [meal]="meal"></app-meal>
-    </li>
-    <li
-      *ngFor="let meal of getMeals() | async"
-      class="list-group-item border-0"
-    >
-      <app-meal [meal]="meal"></app-meal>
-    </li>
-    <li
-      *ngFor="let meal of getMeals() | async"
-      class="list-group-item border-0"
-    >
-      <app-meal [meal]="meal"></app-meal>
-    </li>
-    <li
-      *ngFor="let meal of getMeals() | async"
+      *ngFor="
+        let meal of getMeals()
+          | async
+          | mealFilter
+          | slice : getPage() * 9 : (getPage() + 1) * 9
+      "
       class="list-group-item border-0"
     >
       <app-meal [meal]="meal"></app-meal>
     </li>
   </ul>
+  <app-pagination></app-pagination>
 </div>
