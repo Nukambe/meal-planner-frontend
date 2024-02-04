@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WeekComponent } from './week/week.component';
 import { WeeklyMacrosComponent } from '../weekly-macros/weekly-macros.component';
@@ -27,13 +27,17 @@ import { take } from 'rxjs';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   today = new Date();
   applyingTemplate = false;
   constructor(
     private readonly templatesService: TemplatesService,
     private readonly mealPlanService: MealPlanService
   ) {}
+
+  ngOnInit() {
+    this.mealPlanService.getPlan();
+  }
 
   getTemplates() {
     return this.templatesService.getTemplates();

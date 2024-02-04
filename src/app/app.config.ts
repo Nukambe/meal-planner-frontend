@@ -9,9 +9,6 @@ import { provideEffects } from '@ngrx/effects';
 import { mealsReducer } from './store/meals/meals.reducer';
 import { MealsEffects } from './store/meals/meals.effects';
 
-import { categoriesReducer } from './store/categories/categories.reducer';
-import { CategoriesEffects } from './store/categories/categories.effects';
-
 import { plansReducer } from './store/plans/plans.reducer';
 import { PlansEffects } from './store/plans/plans.effects';
 
@@ -24,15 +21,10 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideStore({
       meals: mealsReducer,
-      categories: categoriesReducer,
+
       plan: plansReducer,
       templates: templatesReducer,
     }),
-    provideEffects([
-      MealsEffects,
-      CategoriesEffects,
-      PlansEffects,
-      TemplatesEffects,
-    ]),
+    provideEffects([MealsEffects, PlansEffects, TemplatesEffects]),
   ],
 };

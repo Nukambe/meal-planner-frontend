@@ -45,9 +45,19 @@ export const initialState: PlansState = {
 export const plansReducer = createReducer(
   initialState,
   on(PlansActions.getPlanSuccess, (state, { plan }) => {
+    console.log('plan', plan);
     return { ...state, plan };
   }),
+  on(PlansActions.getPlanFailure, (state, { error }) => {
+    console.log('error', error);
+    return state;
+  }),
   on(PlansActions.modifyPlanSuccess, (state, { plan }) => {
+    console.log('plan', plan);
     return { ...state, plan };
+  }),
+  on(PlansActions.modifyPlanFailure, (state, { error }) => {
+    console.log('error', error);
+    return state;
   })
 );

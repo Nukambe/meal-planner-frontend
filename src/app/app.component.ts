@@ -4,7 +4,9 @@ import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { Store } from '@ngrx/store';
 import * as MealsActions from './store/meals/meals.actions';
+import * as PlansActions from './store/plans/plans.actions';
 import { AddMealModalComponent } from './add-meal-modal/add-meal-modal.component';
+import { PlannedMealComponent } from './planned-meal/planned-meal.component';
 
 @Component({
   selector: 'app-root',
@@ -18,5 +20,19 @@ export class AppComponent implements OnInit {
 
   constructor(private store: Store<any>) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    fetch('/api/auth/signin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: 'admin', password: 'password' }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log('Successfully signed in', data['access_token']);
+        document.cookie = `mp-authorization=${data['access_token']}`;
+      })
+      .then(() => {
+        this.store.dispatch(PlansActions.getPlan());
+      });
+  }
 }

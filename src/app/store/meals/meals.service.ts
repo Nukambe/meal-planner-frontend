@@ -28,6 +28,7 @@ export class MealsService {
       if (filters.Protein.order) query.minProtein = filters.Protein.value;
       else query.maxProtein = filters.Protein.value;
     }
+    console.log('calling api to get meals');
     return this.http.get(`/api/meals?${new URLSearchParams(query).toString()}`);
   }
 }

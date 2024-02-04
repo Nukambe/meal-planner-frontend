@@ -21,6 +21,11 @@ export class MealPlanService {
   private activeWeek: string = '1/7/24';
 
   constructor(private readonly store: Store<any>) {}
+
+  // Meal Plan ---------------------------------------------------------------
+  getPlan() {
+    return this.store.dispatch(MealPlanActions.getPlan());
+  }
   // Active Week --------------------------------------------------------------
   getActiveWeek(): string {
     return this.activeWeek;
@@ -115,6 +120,7 @@ export class MealPlanService {
           [...plan.getAllPlannedMeals(), { week, day, id: mealId }],
           plan.getAllPlannedGoals()
         );
+        console.log('newPlan: ', newPlan);
         this.store.dispatch(MealPlanActions.modifyPlan({ plan: newPlan }));
       });
   }
@@ -130,10 +136,7 @@ export class MealPlanService {
           plan.getAllPlannedMeals(),
           plan.getAllPlannedGoals()
         );
-        console.log('previous', newPlan.getPlannedGoalsByWeek(week));
-        console.log('goals to insert', template.goals);
         newPlan.applyWeeklyTemplate(week, template);
-        console.log('new', newPlan.getPlannedGoalsByWeek(week));
         this.store.dispatch(MealPlanActions.modifyPlan({ plan: newPlan }));
       });
   }
