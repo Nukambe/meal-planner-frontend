@@ -27,4 +27,19 @@ export class MealsEffects {
       )
     )
   );
+
+  getDbMeals = createEffect(() =>
+    this.actions$.pipe(
+      ofType(MealActions.getDbMeals),
+      mergeMap(() =>
+        this.mealsService.getDbMeals().pipe(
+          rxjsMap((meals: Meal[]) => {
+            return meals;
+          }),
+          rxjsMap((meals: Meal[]) => MealActions.getDbMealsSuccess({ meals })),
+          catchError(() => EMPTY)
+        )
+      )
+    )
+  );
 }

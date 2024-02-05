@@ -91,12 +91,14 @@ export const mealsReducer = createReducer(
   initialState,
   on(MealsActions.getAllMealsSuccess, (state, { meals }) => {
     const newMeals = [...state.meals];
-    console.log('meals', meals);
     meals.forEach((meal) => {
       if (!newMeals.find((m) => m.id === meal.id)) {
         newMeals.push(meal);
       }
     });
     return { ...state, meals: newMeals };
+  }),
+  on(MealsActions.getDbMealsSuccess, (state, { meals }) => {
+    return { ...state, meals };
   })
 );

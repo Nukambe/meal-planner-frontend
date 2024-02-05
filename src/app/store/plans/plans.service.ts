@@ -10,15 +10,15 @@ export class PlansService {
   constructor(private readonly http: HttpClient) {}
 
   getPlan(): Observable<any> {
-    console.log('getPlan');
     return this.http.get('/api/meal-plan', {
+      responseType: 'json',
       headers: { 'mp-authorization': this.getToken() },
     });
   }
 
   modifyPlan(plan: MealPlan): Observable<any> {
-    console.log('modifyPlan', plan);
     return this.http.patch('/api/meal-plan', plan, {
+      responseType: 'json',
       headers: {
         'mp-authorization': this.getToken(),
       },

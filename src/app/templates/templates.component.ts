@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TemplatesService } from '../templates.service';
 import { MealPlanService } from '../meal-plan.service';
 import { TemplateButtonComponent } from './template-button/template-button.component';
@@ -40,7 +40,7 @@ interface TempGoals {
   templateUrl: './templates.component.html',
   styleUrl: './templates.component.css',
 })
-export class TemplatesComponent {
+export class TemplatesComponent implements OnInit {
   title = new FormControl('', [Validators.required, Validators.minLength(3)]);
   editingTemplate: number | undefined;
   tmpMeals: TempMeals | undefined;
@@ -51,6 +51,10 @@ export class TemplatesComponent {
     private readonly templatesService: TemplatesService,
     private readonly mealPlanService: MealPlanService
   ) {}
+
+  ngOnInit() {
+    this.templatesService.getDbTemplates();
+  }
 
   getMeal(id: number) {
     return this.mealPlanService.getMealById(id);

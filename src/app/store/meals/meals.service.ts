@@ -31,4 +31,8 @@ export class MealsService {
     console.log('calling api to get meals');
     return this.http.get(`/api/meals?${new URLSearchParams(query).toString()}`);
   }
+
+  getDbMeals(): Observable<any> {
+    return this.http.get('/api/meals/db');
+  }
 }

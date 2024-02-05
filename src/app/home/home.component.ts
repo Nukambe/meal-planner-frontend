@@ -37,6 +37,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.mealPlanService.getPlan();
+    this.templatesService.getDbTemplates();
   }
 
   getTemplates() {

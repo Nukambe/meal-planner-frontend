@@ -13,3 +13,13 @@ export const getAllMealsFailure = createAction(
   '[Meals] Get All Meals Failure',
   props<{ error: any }>()
 );
+
+export const getDbMeals = createAction('[Meals] Get DB Meals');
+export const getDbMealsSuccess = createAction(
+  '[Meals] Get DB Meals Success',
+  props<{ meals: Meal[] }>()
+);
+export const getDbMealsFailure = createAction(
+  '[Meals] Get DB Meals Failure',
+  props<{ error: any }>()
+);

@@ -21,18 +21,22 @@ export class AppComponent implements OnInit {
   constructor(private store: Store<any>) {}
 
   ngOnInit(): void {
-    fetch('/api/auth/signin', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: 'admin', password: 'password' }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log('Successfully signed in', data['access_token']);
-        document.cookie = `mp-authorization=${data['access_token']}`;
-      })
-      .then(() => {
-        this.store.dispatch(PlansActions.getPlan());
-      });
+    // fetch('/api/auth/signin', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ username: 'admin', password: 'password' }),
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     console.log('Successfully signed in', data['access_token']);
+    //     document.cookie = `mp-authorization=${data['access_token']}`;
+    //   })
+    //   .then(() => {
+    //     this.store.dispatch(PlansActions.getPlan());
+    //     this.store.dispatch(MealsActions.getDbMeals());
+    //   });
+
+    this.store.dispatch(PlansActions.getPlan());
+    this.store.dispatch(MealsActions.getDbMeals());
   }
 }

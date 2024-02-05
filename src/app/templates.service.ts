@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as TemplatesActions from './store/templates/templates.actions';
+import * as templatesActions from './store/templates/templates.actions';
 import { Meal, MealTemplate, dayOfWeek } from 'meal-planner-types';
 import { take } from 'rxjs';
 import { state } from '@angular/animations';
@@ -10,6 +10,10 @@ import { state } from '@angular/animations';
 })
 export class TemplatesService {
   constructor(private readonly store: Store<any>) {}
+
+  getDbTemplates() {
+    this.store.dispatch(templatesActions.getTemplates());
+  }
 
   getEmptyGoal(day: number) {
     return {
@@ -36,8 +40,10 @@ export class TemplatesService {
 
   getTemplates() {
     return this.store.select(
-      (state: { templates: { templates: MealTemplate[] } }) =>
-        state.templates.templates
+      (state: { templates: { templates: MealTemplate[] } }) => {
+        // console.log('state.templates.templates: ', state.templates.templates);
+        return state.templates.templates;
+      }
     );
   }
 
@@ -52,7 +58,7 @@ export class TemplatesService {
           goals: this.getEmptyGoals(),
         });
         this.store.dispatch(
-          TemplatesActions.modifyTemplate({ templates: newTemplates })
+          templatesActions.modifyTemplate({ templates: newTemplates })
         );
       });
   }
@@ -65,7 +71,7 @@ export class TemplatesService {
         const newTemplates = [...templates];
         newTemplates.splice(index, 1);
         this.store.dispatch(
-          TemplatesActions.modifyTemplate({ templates: newTemplates })
+          templatesActions.modifyTemplate({ templates: newTemplates })
         );
       });
   }
@@ -77,7 +83,7 @@ export class TemplatesService {
         const newTemplates = [...templates];
         newTemplates[index] = template;
         this.store.dispatch(
-          TemplatesActions.modifyTemplate({ templates: newTemplates })
+          templatesActions.modifyTemplate({ templates: newTemplates })
         );
       });
   }

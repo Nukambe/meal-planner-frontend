@@ -10,16 +10,30 @@ export class TemplatesService {
   constructor(private readonly http: HttpClient) {}
 
   getTemplates(): Observable<any> {
-    return this.http.get('/api/templates');
+    return this.http.get('/api/templates', {
+      headers: {
+        'mp-authorization': this.getToken(),
+      },
+    });
   }
 
-  modifyTemplates(templates: MealTemplate[]): Observable<MealTemplate[]> {
-    // this.http.put('/api/plans', plan);
-    return of(templates).pipe(
-      catchError((err) => {
-        console.log('Error modifying plan', err);
-        return EMPTY;
-      })
+  modifyTemplates(templates: MealTemplate[]) {
+    return this.http.patch('/api/templates', templates, {
+      headers: {
+        'mp-authorization': this.getToken(),
+      },
+    });
+  }
+
+  getToken() {
+    const cookies = document.cookie.split(';');
+    const mpAuthorization = cookies.find((cookie) =>
+      cookie.includes('mp-authorization')
     );
+    if (!mpAuthorization) {
+      return '';
+    }
+    const token = mpAuthorization.split('=')[1];
+    return token;
   }
 }

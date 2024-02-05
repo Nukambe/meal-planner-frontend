@@ -1,6 +1,6 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { mergeMap, map as rxjsMap, catchError, EMPTY } from 'rxjs';
-import * as TemplatesActions from './templates.actions';
+import * as templatesActions from './templates.actions';
 import { Injectable } from '@angular/core';
 import { TemplatesService } from './templates.service';
 import { MealTemplate } from 'meal-planner-types';
@@ -14,13 +14,16 @@ export class TemplatesEffects {
 
   getPlan = createEffect(() =>
     this.actions$.pipe(
-      ofType(TemplatesActions.getTemplates),
+      ofType(templatesActions.getTemplates),
       mergeMap(() =>
         this.templatesService.getTemplates().pipe(
-          rxjsMap((templates: MealTemplate[]) =>
-            TemplatesActions.getTemplatesSuccess({ templates })
-          ),
-          catchError(() => EMPTY)
+          rxjsMap((templates: MealTemplate[]) => {
+            return templatesActions.getTemplatesSuccess({ templates });
+          }),
+          catchError(() => {
+            templatesActions.getTemplatesFailure({ error: 'Error' });
+            return EMPTY;
+          })
         )
       )
     )
@@ -28,17 +31,20 @@ export class TemplatesEffects {
 
   modifyPlan = createEffect(() =>
     this.actions$.pipe(
-      ofType(TemplatesActions.modifyTemplate),
+      ofType(templatesActions.modifyTemplate),
       mergeMap((action) =>
         this.templatesService
           .modifyTemplates(action.templates)
           .pipe(
-            rxjsMap((templates: MealTemplate[]) =>
-              TemplatesActions.modifyTemplateSuccess({ templates })
+            rxjsMap((templates: any) =>
+              templatesActions.modifyTemplateSuccess({ templates })
             )
           )
       ),
-      catchError(() => EMPTY)
+      catchError(() => {
+        templatesActions.modifyTemplateFailure({ error: 'Error' });
+        return EMPTY;
+      })
     )
   );
 }
