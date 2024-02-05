@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { EMPTY, Observable, catchError, of, repeat } from 'rxjs';
+import { EMPTY, Observable, catchError, of, repeat, take } from 'rxjs';
 import { MealPlan, plannedGoals, plannedMeals } from 'meal-planner-types';
 
 @Injectable({ providedIn: 'root' })
@@ -17,12 +17,17 @@ export class PlansService {
   }
 
   modifyPlan(plan: MealPlan): Observable<any> {
-    return this.http.patch('/api/meal-plan', plan, {
-      responseType: 'json',
-      headers: {
-        'mp-authorization': this.getToken(),
-      },
-    });
+    this.http
+      .patch('/api/meal-plan', plan, {
+        responseType: 'json',
+        headers: {
+          'mp-authorization': this.getToken(),
+        },
+      })
+      .pipe(take(1))
+      .subscribe();
+
+    return of(plan);
   }
 
   getToken() {

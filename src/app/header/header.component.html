@@ -133,7 +133,18 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form *ngIf="!user" class="d-flex flex-column gap-2">
+        <form
+          *ngIf="!user"
+          class="d-flex flex-column gap-2"
+          (submit)="
+            onRegister(
+              signupUsername.value,
+              signupPassword.value,
+              signupConfirm.value,
+              $event
+            )
+          "
+        >
           <label>
             Username
             <input type="text" class="form-control" #signupUsername />

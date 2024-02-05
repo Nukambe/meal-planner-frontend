@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { EMPTY, Observable, catchError, of } from 'rxjs';
+import { EMPTY, Observable, catchError, of, take } from 'rxjs';
 import { MealTemplate } from 'meal-planner-types';
 
 @Injectable({ providedIn: 'root' })
@@ -18,11 +18,16 @@ export class TemplatesService {
   }
 
   modifyTemplates(templates: MealTemplate[]) {
-    return this.http.patch('/api/templates', templates, {
-      headers: {
-        'mp-authorization': this.getToken(),
-      },
-    });
+    this.http
+      .patch('/api/templates', templates, {
+        headers: {
+          'mp-authorization': this.getToken(),
+        },
+      })
+      .pipe(take(1))
+      .subscribe();
+
+    return of(templates);
   }
 
   getToken() {

@@ -6,9 +6,11 @@ import * as templateActions from '../store/templates/templates.actions';
 import * as planActions from '../store/plans/plans.actions';
 import { PlansEffects } from '../store/plans/plans.effects';
 import * as mealActions from '../store/meals/meals.actions';
-import { MealPlan } from 'meal-planner-types';
+import { MealPlan, MealTemplate } from 'meal-planner-types';
 import { HttpClient } from '@angular/common/http';
-import { take } from 'rxjs';
+import { firstValueFrom, take } from 'rxjs';
+import { MealPlanService } from '../meal-plan.service';
+import { TemplatesService } from '../templates.service';
 
 @Component({
   selector: 'app-header',
@@ -30,8 +32,18 @@ export class HeaderComponent {
   constructor(
     private store: Store,
     private http: HttpClient,
-    private plansEffects: PlansEffects
+    private plansEffects: PlansEffects,
+    private mealPlanService: MealPlanService,
+    private templatesService: TemplatesService
   ) {}
+
+  async getMealPlan() {
+    return await firstValueFrom(this.mealPlanService.getMealPlan());
+  }
+
+  async getTemplates() {
+    return firstValueFrom(this.templatesService.getTemplates());
+  }
 
   onSignOut() {
     this.user = '';
@@ -73,24 +85,33 @@ export class HeaderComponent {
       });
   }
 
-  onRegister(
+  async onRegister(
     username: string,
     password: string,
     confirm: string,
     event: Event
   ) {
     event.preventDefault();
+
     if (!this.validatePassword(password, confirm)) {
       this.registerError = 'Passwords do not match';
       return;
     }
+
+    const mealPlan = await this.getMealPlan();
+    const templates = await this.getTemplates();
+
     this.http
       .post('/api/auth/signup', {
         username,
         password,
+        plan: mealPlan,
+        templates: templates,
       })
       .pipe(take(1))
       .subscribe((res: any) => {
+        console.log('signup', res);
+
         const token = res['access_token'];
         if (!token) {
           this.registerError = 'Username already exists';
@@ -98,10 +119,13 @@ export class HeaderComponent {
         }
         document.cookie = `mp-authorization=${res['access_token']}`;
         this.user = res.username;
-        const plan = new MealPlan([], []);
+        const plan = this.plansEffects.convertPlan(
+          res.plan.plannedMeals,
+          res.plan.plannedGoals
+        );
         this.store.dispatch(planActions.getPlanSuccess({ plan }));
         this.store.dispatch(
-          templateActions.getTemplatesSuccess({ templates: [] })
+          templateActions.getTemplatesSuccess({ templates: res.templates })
         );
         this.store.dispatch(
           mealActions.getDbMealsSuccess({ meals: res.meals })
