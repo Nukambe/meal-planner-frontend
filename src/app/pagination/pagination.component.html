@@ -4,13 +4,19 @@
     style="width: fit-content"
   >
     <button
-      class="btn btn-link"
+      class="btn btn-link text-decoration-none fs-5 fw-bold text-primary"
       [disabled]="getPage() === 0"
       (click)="onPageChange(-1)"
     >
       <
     </button>
     {{ getPage() + 1 }}
-    <button class="btn btn-link" (click)="onPageChange(1)">></button>
+    <button
+      class="btn btn-link text-decoration-none fs-5 fw-bold text-primary"
+      (click)="onPageChange(1)"
+      [disabled]="!canGoForward()"
+    >
+      >
+    </button>
   </div>
 </div>

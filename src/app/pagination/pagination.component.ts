@@ -18,4 +18,9 @@ export class PaginationComponent {
   onPageChange(page: number) {
     this.filterService.setPage(this.getPage() + page);
   }
+
+  canGoForward() {
+    const meals = document.querySelectorAll('.app-meal-item');
+    return meals.length === 9;
+  }
 }

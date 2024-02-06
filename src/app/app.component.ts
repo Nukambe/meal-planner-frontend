@@ -35,8 +35,5 @@ export class AppComponent implements OnInit {
     //     this.store.dispatch(PlansActions.getPlan());
     //     this.store.dispatch(MealsActions.getDbMeals());
     //   });
-
-    this.store.dispatch(PlansActions.getPlan());
-    this.store.dispatch(MealsActions.getDbMeals());
   }
 }

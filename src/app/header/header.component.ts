@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
@@ -19,7 +19,7 @@ import { TemplatesService } from '../templates.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   routes: { path: string; label: string }[] = [
     { path: '', label: 'Dashboard' },
     { path: '/templates', label: 'Templates' },
@@ -36,6 +36,36 @@ export class HeaderComponent {
     private mealPlanService: MealPlanService,
     private templatesService: TemplatesService
   ) {}
+
+  ngOnInit(): void {
+    const token = document.cookie
+      .split('; ')
+      .find((row) => row.startsWith('mp-authorization='))
+      ?.split('=')[1];
+    if (token) {
+      this.http
+        .get('/api/auth/user', {
+          headers: {
+            'mp-authorization': token,
+          },
+        })
+        .pipe(take(1))
+        .subscribe((res: any) => {
+          this.user = res.username;
+          const plan = this.plansEffects.convertPlan(
+            res.plan.plannedMeals,
+            res.plan.plannedGoals
+          );
+          this.store.dispatch(planActions.getPlanSuccess({ plan }));
+          this.store.dispatch(
+            templateActions.getTemplatesSuccess({ templates: res.templates })
+          );
+          this.store.dispatch(
+            mealActions.getDbMealsSuccess({ meals: res.meals })
+          );
+        });
+    }
+  }
 
   async getMealPlan() {
     return await firstValueFrom(this.mealPlanService.getMealPlan());

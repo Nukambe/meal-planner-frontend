@@ -1,17 +1,17 @@
 <div class="container">
   <app-meal-search></app-meal-search>
-  <ul class="list-group list-group-flush list-group-horizontal flex-wrap">
-    <li
+  <div class="p-0 col-12 d-md-flex flex-wrap">
+    <div
       *ngFor="
         let meal of getMeals()
           | async
           | mealFilter
           | slice : getPage() * 9 : (getPage() + 1) * 9
       "
-      class="list-group-item border-0"
+      class="app-meal-item col-5"
     >
       <app-meal [meal]="meal"></app-meal>
-    </li>
-  </ul>
+    </div>
+  </div>
   <app-pagination></app-pagination>
 </div>

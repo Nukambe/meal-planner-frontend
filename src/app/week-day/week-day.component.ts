@@ -26,6 +26,7 @@ import { MacroComparisonComponent } from '../macro-comparison/macro-comparison.c
 export class WeekDayComponent {
   @Input() day: dayOfWeek = dayOfWeek.Sunday;
   showMeals: boolean = false;
+  hovered: boolean = false;
 
   constructor(private mealPlanService: MealPlanService) {}
 

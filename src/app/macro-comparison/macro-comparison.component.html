@@ -14,7 +14,7 @@
         {{ macro.name | nutrient }}
       </span>
       <span class="fw-normal">
-        {{ macro.amount }}
+        {{ (macro.amount | number : "2.0-2")?.split(",")?.join("") }}
       </span>
       {{ macro.unit }}
     </div>
@@ -31,7 +31,7 @@
     >
       {{
         getMacroComparison(macro.name, macro.amount, getMacroGoals() | async)
-          .remainder
+          .remainder | number
       }}
       <span>
         {{
