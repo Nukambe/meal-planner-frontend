@@ -29,6 +29,19 @@
           },
           "configurations": {
             "production": {
+              "assets": [
+                {
+                  "glob": "**/*",
+                  "input": "src/assets",
+                  "ignore": ["**/src/mp-server"],
+                  "output": "/assets"
+                },
+                {
+                  "glob": "favicon.ico",
+                  "input": "src/",
+                  "output": "/"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
